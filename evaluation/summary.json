@@ -1,0 +1,121 @@
+{
+  "conditions": {
+    "adapter": {
+      "failure_distribution": {
+        "correct": 39,
+        "execution_error:nonzero_exit": 11,
+        "extraction_error:ambiguous_code_blocks": 1,
+        "extraction_error:direct_answer_not_program": 7,
+        "extraction_error:raw_python_invalid": 10,
+        "policy_rejection": 10,
+        "scoring_error:incorrect_answer": 14,
+        "scoring_error:malformed_answer": 6,
+        "stdout_error:no_output": 2
+      },
+      "primary_correctness": {
+        "denominator": 100,
+        "numerator": 39,
+        "rate": 0.39
+      }
+    },
+    "base": {
+      "failure_distribution": {
+        "correct": 17,
+        "execution_error:nonzero_exit": 6,
+        "extraction_error:raw_python_invalid": 21,
+        "policy_rejection": 35,
+        "scoring_error:incorrect_answer": 14,
+        "scoring_error:malformed_answer": 6,
+        "stdout_error:no_output": 1
+      },
+      "primary_correctness": {
+        "denominator": 100,
+        "numerator": 17,
+        "rate": 0.17
+      }
+    }
+  },
+  "manual_review": {
+    "automated_manual_disagreements": 0,
+    "denominator_changes": 0,
+    "invalid_fixture_cases": 0,
+    "records_reviewed": 200,
+    "subjective_credit_changes": 0
+  },
+  "paired_outcomes": {
+    "adapter_only_correct": 27,
+    "base_only_correct": 5,
+    "both_correct": 12,
+    "both_incorrect": 56
+  },
+  "per_category": {
+    "absolute_value_equations": {
+      "adapter_correct": 0,
+      "base_correct": 0,
+      "cases": 10
+    },
+    "exponents_and_radicals": {
+      "adapter_correct": 0,
+      "base_correct": 2,
+      "cases": 10
+    },
+    "inequalities": {
+      "adapter_correct": 3,
+      "base_correct": 2,
+      "cases": 10
+    },
+    "linear_equations": {
+      "adapter_correct": 6,
+      "base_correct": 1,
+      "cases": 10
+    },
+    "polynomial_roots_or_factorization": {
+      "adapter_correct": 5,
+      "base_correct": 1,
+      "cases": 10
+    },
+    "proportions_and_word_problems": {
+      "adapter_correct": 0,
+      "base_correct": 0,
+      "cases": 10
+    },
+    "quadratic_equations": {
+      "adapter_correct": 7,
+      "base_correct": 1,
+      "cases": 10
+    },
+    "rational_equations": {
+      "adapter_correct": 8,
+      "base_correct": 5,
+      "cases": 10
+    },
+    "simplification_or_evaluation": {
+      "adapter_correct": 4,
+      "base_correct": 1,
+      "cases": 10
+    },
+    "systems_of_equations": {
+      "adapter_correct": 6,
+      "base_correct": 4,
+      "cases": 10
+    }
+  },
+  "provenance": {
+    "archival_paths": {
+      "adapter_results": "evaluation/results/confirmatory/adapter_results.jsonl",
+      "base_results": "evaluation/results/confirmatory/base_results.jsonl",
+      "fixture": "evaluation/confirmatory_cases.jsonl",
+      "manual_review": "evaluation/results/confirmatory/manual_review.json",
+      "original_summary": "evaluation/results/confirmatory/summary.json"
+    },
+    "derivation": "Deterministically derived without model inference from frozen archival artifacts.",
+    "sha256": {
+      "evaluation/confirmatory_cases.jsonl": "6a1a6bea174f298192a3b103d979e630d04405d562434eac1b7603c3a57d2a24",
+      "evaluation/results/confirmatory/adapter_results.jsonl": "d92c3cb704abacc98e6c6fd5667c66dbcc9c41f914912f0be63859145708afca",
+      "evaluation/results/confirmatory/base_results.jsonl": "e1011010a313b3e4283f25ca218e2bdf318c67ac134aee4d65cafa811a555753",
+      "evaluation/results/confirmatory/manual_review.json": "03bc1ce3e4b201a94a22098214fc6d397d2e6543b4f2befa25d75a31365fb2af",
+      "evaluation/results/confirmatory/summary.json": "a409b6b5cd929dda877d91cb873f800cc5e337ceac26a6e034293844c1b31b0b"
+    }
+  },
+  "schema_version": "algalpaca-evaluation-summary-v1"
+}

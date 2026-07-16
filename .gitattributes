@@ -1,0 +1,7 @@
+# Preserve reviewed legal and frozen historical artifacts byte-for-byte.
+LICENSE -whitespace
+configs/historical_training.yaml -whitespace
+demo/demo_cases_review.md -whitespace
+evaluation/results/confirmatory/summary.md -whitespace
+release/huggingface/LICENSE -whitespace
+release/huggingface/THIRD_PARTY_NOTICES.md -whitespace

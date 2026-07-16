@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  printf 'Usage: %s [--check] [--rebuild]\n' "${0##*/}" >&2
+}
+
+check_only=false
+force_rebuild=false
+for argument in "$@"; do
+  case "$argument" in
+    --check) check_only=true ;;
+    --rebuild) force_rebuild=true ;;
+    *) usage; exit 2 ;;
+  esac
+done
+
+root=$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
+python="$root/.venv/bin/python"
+frontend="$root/frontend"
+dist_index="$frontend/dist/index.html"
+
+fail() {
+  printf 'AlgAlpaca check failed: %s\n' "$1" >&2
+  exit 1
+}
+
+[[ -x "$python" ]] || fail 'the project virtual environment is missing; create .venv first.'
+"$python" -c 'import codellama_algebra, fastapi, uvicorn' >/dev/null 2>&1 || \
+  fail "the project package and web dependencies are unavailable in .venv."
+
+adapter_path=${CODELLAMA_ALGEBRA_ADAPTER_PATH:-}
+if [[ -z "$adapter_path" ]]; then
+  path_file="$root/.algalpaca-adapter-path"
+  [[ -f "$path_file" && ! -L "$path_file" ]] || \
+    fail 'set CODELLAMA_ALGEBRA_ADAPTER_PATH or create .algalpaca-adapter-path.'
+  mapfile -t path_lines < "$path_file"
+  [[ ${#path_lines[@]} -eq 1 ]] || fail '.algalpaca-adapter-path must contain exactly one line.'
+  adapter_path=${path_lines[0]}
+  adapter_path="${adapter_path#"${adapter_path%%[![:space:]]*}"}"
+  adapter_path="${adapter_path%"${adapter_path##*[![:space:]]}"}"
+  [[ -n "$adapter_path" && "$adapter_path" != *$'\r'* ]] || \
+    fail '.algalpaca-adapter-path contains a malformed value.'
+fi
+[[ -d "$adapter_path" && ! -L "$adapter_path" ]] || fail 'the configured adapter directory is unavailable.'
+
+needs_build=false
+if [[ ! -f "$dist_index" || -L "$dist_index" ]]; then
+  needs_build=true
+elif [[ -n $(find "$frontend/src" "$frontend/package.json" "$frontend/package-lock.json" \
+  "$frontend/tsconfig.json" "$frontend/tsconfig.app.json" "$frontend/tsconfig.node.json" \
+  "$frontend/vite.config.ts" -type f -newer "$dist_index" -print -quit 2>/dev/null) ]]; then
+  needs_build=true
+fi
+if $force_rebuild; then
+  needs_build=true
+fi
+
+if $needs_build; then
+  node_path=$(command -v node || true)
+  npm_path=$(command -v npm || true)
+  [[ -n "$node_path" && -n "$npm_path" ]] || fail 'Linux/WSL node and npm are required to build the frontend.'
+  case "$node_path:$npm_path" in
+    *:/mnt/c/*|/mnt/c/*) fail 'Windows node or npm under /mnt/c is not supported; use Linux/WSL tools.' ;;
+  esac
+fi
+
+if $check_only; then
+  if $needs_build; then
+    printf 'AlgAlpaca check passed; the frontend requires a production rebuild.\n'
+  else
+    printf 'AlgAlpaca check passed; the frontend build is current.\n'
+  fi
+  exit 0
+fi
+
+if $needs_build; then
+  lock_install="$frontend/node_modules/.package-lock.json"
+  dependencies_current=true
+  if [[ ! -d "$frontend/node_modules" || ! -f "$lock_install" || \
+        "$frontend/package-lock.json" -nt "$lock_install" ]]; then
+    dependencies_current=false
+  elif ! (cd "$frontend" && "$npm_path" ls --depth=0 --ignore-scripts >/dev/null 2>&1); then
+    dependencies_current=false
+  fi
+  if ! $dependencies_current; then
+    (cd "$frontend" && "$npm_path" ci)
+  fi
+  (cd "$frontend" && "$npm_path" run build)
+fi
+
+export CODELLAMA_ALGEBRA_ADAPTER_PATH="$adapter_path"
+printf 'AlgAlpaca is available locally at http://127.0.0.1:8000\n'
+exec "$python" -m codellama_algebra.web_api

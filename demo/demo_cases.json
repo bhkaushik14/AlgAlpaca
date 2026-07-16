@@ -1,0 +1,66 @@
+{
+  "schema_version": "illustrative-demo-cases-v1",
+  "hash_rule": "SHA-256 of compact sorted-key ASCII JSON of each case excluding sha256",
+  "cases": [
+    {
+      "id": "demo-linear-01",
+      "category": "linear_equation",
+      "problem": "After subtracting 11 from five times a real number, the result is 74. Find the number.",
+      "assumptions": [
+        "the unknown is real"
+      ],
+      "expected_answer_schema": {
+        "kind": "finite_set",
+        "value": [
+          "17"
+        ],
+        "variables": [
+          "x"
+        ]
+      },
+      "manual_derivation": "5x - 11 = 74, so 5x = 85 and x = 17.",
+      "sha256": "95005b80ab5c7ace253d6c7318f32785e30c3128ffc692c6ac40640a22b9f3ad"
+    },
+    {
+      "id": "demo-quadratic-01",
+      "category": "quadratic_equation",
+      "problem": "Solve over the real numbers: 3q^2 - 14q - 5 = 0.",
+      "assumptions": [
+        "q is real"
+      ],
+      "expected_answer_schema": {
+        "kind": "finite_set",
+        "value": [
+          "-1/3",
+          "5"
+        ],
+        "variables": [
+          "q"
+        ]
+      },
+      "manual_derivation": "The discriminant is 256; q = (14 \u00b1 16)/6, giving -1/3 and 5.",
+      "sha256": "ecb05a3fc2f805675f11028a5605c9ec5dc5f6ba6f234eef4682e3acaa276988"
+    },
+    {
+      "id": "demo-system-01",
+      "category": "two_variable_system",
+      "problem": "Solve over the real numbers: 4a + 3b = 25 and 2a - b = 1.",
+      "assumptions": [
+        "a and b are real"
+      ],
+      "expected_answer_schema": {
+        "kind": "variable_mapping",
+        "value": {
+          "a": "14/5",
+          "b": "23/5"
+        },
+        "variables": [
+          "a",
+          "b"
+        ]
+      },
+      "manual_derivation": "From b = 2a - 1, substitution gives 10a = 28, so a = 14/5 and b = 23/5.",
+      "sha256": "68fb716e003a65ff217e272a7eaf6c4a6ca7af19533d43d093d2f778b138cbfa"
+    }
+  ]
+}

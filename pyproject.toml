@@ -1,0 +1,50 @@
+[build-system]
+requires = ["hatchling>=1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "algalpaca"
+version = "0.1.0.dev0"
+description = "Local AlgAlpaca algebra-to-Python/SymPy research workbench"
+readme = "README.md"
+requires-python = ">=3.10,<3.12"
+license = { file = "LICENSE" }
+authors = [{ name = "Bhavya Kaushik" }]
+dependencies = [
+  "torch>=2.4,<3",
+  "transformers>=4.45,<5",
+  "peft>=0.12,<1",
+  "accelerate>=1.0,<2",
+  "safetensors>=0.4,<1",
+  "sympy>=1.13,<2",
+]
+
+[project.optional-dependencies]
+evaluation = ["jsonschema>=4.23,<5"]
+training = [
+  "bitsandbytes>=0.43,<1",
+  "datasets>=3,<5",
+  "trl>=0.9,<1",
+]
+demo = ["gradio==5.50.0"]
+web = [
+  "fastapi==0.139.0",
+  "uvicorn==0.51.0",
+]
+dev = [
+  "pytest>=8,<9",
+  "ruff>=0.9,<1",
+]
+
+[project.scripts]
+codellama-algebra = "codellama_algebra.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/codellama_algebra"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
