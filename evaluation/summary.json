@@ -16,6 +16,11 @@
         "denominator": 100,
         "numerator": 39,
         "rate": 0.39
+      },
+      "executable": {
+        "denominator": 100,
+        "numerator": 61,
+        "rate": 0.61
       }
     },
     "base": {
@@ -32,6 +37,49 @@
         "denominator": 100,
         "numerator": 17,
         "rate": 0.17
+      },
+      "executable": {
+        "denominator": 100,
+        "numerator": 38,
+        "rate": 0.38
+      }
+    },
+    "v2": {
+      "failure_distribution": {
+        "correct": 59,
+        "execution_error:nonzero_exit": 8,
+        "policy_rejection": 7,
+        "scoring_error:incorrect_answer": 13,
+        "scoring_error:malformed_answer": 13
+      },
+      "primary_correctness": {
+        "denominator": 100,
+        "numerator": 59,
+        "rate": 0.59
+      },
+      "manual_correctness": {
+        "denominator": 100,
+        "numerator": 71,
+        "rate": 0.71,
+        "scorer_false_negatives": 12
+      },
+      "executable": {
+        "denominator": 100,
+        "numerator": 85,
+        "rate": 0.85
+      },
+      "stage_failures": {
+        "execution": 8,
+        "extraction": 0,
+        "mathematical_score": 26,
+        "policy": 7,
+        "stdout": 0,
+        "syntax": 0
+      },
+      "remaining_manual_failures": {
+        "execution_failure": 8,
+        "mathematically_wrong_answer": 14,
+        "policy_failure": 7
       }
     }
   },
@@ -42,61 +90,94 @@
     "records_reviewed": 200,
     "subjective_credit_changes": 0
   },
+  "v2_manual_review": {
+    "automated_correct": 59,
+    "manual_correct": 71,
+    "records_reviewed": 100,
+    "review_complete": true,
+    "scorer_false_negatives": 12
+  },
   "paired_outcomes": {
     "adapter_only_correct": 27,
     "base_only_correct": 5,
     "both_correct": 12,
     "both_incorrect": 56
   },
+  "paired_original_v2_automated": {
+    "both_correct": 28,
+    "both_incorrect": 30,
+    "original_only": 11,
+    "v2_only": 31
+  },
   "per_category": {
     "absolute_value_equations": {
       "adapter_correct": 0,
       "base_correct": 0,
+      "v2_automated_correct": 10,
+      "v2_manual_correct": 10,
       "cases": 10
     },
     "exponents_and_radicals": {
       "adapter_correct": 0,
       "base_correct": 2,
+      "v2_automated_correct": 6,
+      "v2_manual_correct": 7,
       "cases": 10
     },
     "inequalities": {
       "adapter_correct": 3,
       "base_correct": 2,
+      "v2_automated_correct": 6,
+      "v2_manual_correct": 7,
       "cases": 10
     },
     "linear_equations": {
       "adapter_correct": 6,
       "base_correct": 1,
+      "v2_automated_correct": 7,
+      "v2_manual_correct": 9,
       "cases": 10
     },
     "polynomial_roots_or_factorization": {
       "adapter_correct": 5,
       "base_correct": 1,
+      "v2_automated_correct": 9,
+      "v2_manual_correct": 9,
       "cases": 10
     },
     "proportions_and_word_problems": {
       "adapter_correct": 0,
       "base_correct": 0,
+      "v2_automated_correct": 0,
+      "v2_manual_correct": 0,
       "cases": 10
     },
     "quadratic_equations": {
       "adapter_correct": 7,
       "base_correct": 1,
+      "v2_automated_correct": 8,
+      "v2_manual_correct": 9,
       "cases": 10
     },
     "rational_equations": {
       "adapter_correct": 8,
       "base_correct": 5,
+      "v2_automated_correct": 8,
+      "v2_manual_correct": 8,
       "cases": 10
     },
     "simplification_or_evaluation": {
       "adapter_correct": 4,
       "base_correct": 1,
+      "v2_automated_correct": 5,
+      "v2_manual_correct": 6,
       "cases": 10
     },
     "systems_of_equations": {
       "adapter_correct": 6,
       "base_correct": 4,
+      "v2_automated_correct": 0,
+      "v2_manual_correct": 6,
       "cases": 10
     }
   },
@@ -108,14 +189,23 @@
       "manual_review": "evaluation/results/confirmatory/manual_review.json",
       "original_summary": "evaluation/results/confirmatory/summary.json"
     },
-    "derivation": "Deterministically derived without model inference from frozen archival artifacts.",
+    "derivation": "Historical base/original fields were deterministically derived without model inference from frozen archival artifacts.",
+    "v2": {
+      "adapter_config_sha256": "67625139ecb7f71fee57be953ba8070a3f2f0981691038781747aa05b602e797",
+      "adapter_weight_sha256": "a56735e268a5343a02966d3ad8513c2b4a6232b2ed97e9dcdfaa70404293215d",
+      "checkpoint_step": 825,
+      "derivation": "Copied from the completed one-call v2 evaluation without rerunning inference.",
+      "per_case_results_sha256": "d67014f8d12747c640dc33d7b8b948206e7928269d8765d3a18d5f843a990e21",
+      "prompt_version": "confirmatory-algebra-to-code-v2"
+    },
     "sha256": {
       "evaluation/confirmatory_cases.jsonl": "6a1a6bea174f298192a3b103d979e630d04405d562434eac1b7603c3a57d2a24",
       "evaluation/results/confirmatory/adapter_results.jsonl": "d92c3cb704abacc98e6c6fd5667c66dbcc9c41f914912f0be63859145708afca",
       "evaluation/results/confirmatory/base_results.jsonl": "e1011010a313b3e4283f25ca218e2bdf318c67ac134aee4d65cafa811a555753",
       "evaluation/results/confirmatory/manual_review.json": "03bc1ce3e4b201a94a22098214fc6d397d2e6543b4f2befa25d75a31365fb2af",
-      "evaluation/results/confirmatory/summary.json": "a409b6b5cd929dda877d91cb873f800cc5e337ceac26a6e034293844c1b31b0b"
+      "evaluation/results/confirmatory/summary.json": "a409b6b5cd929dda877d91cb873f800cc5e337ceac26a6e034293844c1b31b0b",
+      "evaluation/v2_case_results.csv": "d67014f8d12747c640dc33d7b8b948206e7928269d8765d3a18d5f843a990e21"
     }
   },
-  "schema_version": "algalpaca-evaluation-summary-v1"
+  "schema_version": "algalpaca-evaluation-summary-v2"
 }

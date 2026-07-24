@@ -4,14 +4,18 @@ DOCS = [
     Path("README.md"),
     Path("MODEL_CARD.md"),
     Path("evaluation/README.md"),
+    Path("evaluation/comparison.md"),
     *Path("docs").glob("*.md"),
 ]
 TEXT = "\n".join(p.read_text() for p in DOCS)
 
 
 def test_metrics_and_paired_counts():
-    assert "39/100" in TEXT and "17/100" in TEXT
+    for value in ["17/100", "39/100", "59/100", "71/100"]:
+        assert value in TEXT
     for value in ["adapter-only 27", "base-only 5", "both correct 12", "both incorrect 56"]:
+        assert value in TEXT
+    for value in ["original only 11", "v2 only 31", "both correct 28", "both incorrect 30"]:
         assert value in TEXT
 
 

@@ -23,22 +23,22 @@ export function ExamplesView({ examples, onUseExample }: { examples: ExampleItem
 export function EvaluationView({ summary }: { summary: EvaluationSummary | null }) {
   if (!summary) return <LoadingView label="Loading evaluation summary…" />
   const metrics = [
-    ['Base', `${summary.base.correct}/${summary.base.total}`],
-    ['Adapter', `${summary.adapter.correct}/${summary.adapter.total}`],
-    ['Adapter-only', summary.adapter_only],
-    ['Base-only', summary.base_only],
-    ['Both correct', summary.both_correct],
-    ['Both incorrect', summary.both_incorrect],
+    ['Base automated', `${summary.base.correct}/${summary.base.total}`],
+    ['Original automated', `${summary.original_adapter.correct}/${summary.original_adapter.total}`],
+    ['V2 automated', `${summary.v2_automated.correct}/${summary.v2_automated.total}`],
+    ['V2 manual review', `${summary.v2_manual.correct}/${summary.v2_manual.total}`],
+    ['Original executable', `${summary.original_executable}/100`],
+    ['V2 executable', `${summary.v2_executable}/100`],
   ]
   return (
     <div className="standard-view evaluation-view">
-      <header className="page-intro"><h1>Evaluation</h1><p>The adapter solved 39 of 100 cases. The base model solved 17.</p></header>
+      <header className="page-intro"><h1>Evaluation</h1><p>Automated correctness: 17/100 base, 39/100 original adapter, and 59/100 v2. V2’s separate manual mathematical review counted 71/100.</p></header>
       <div className="metric-grid">{metrics.map(([label, value]) => <article className="metric-card" key={label}><span>{label}</span><strong>{value}</strong></article>)}</div>
       <section className="card limitation-callout">
-        <div className="limitation-figure"><strong>{summary.adapter_failed}/100</strong><span>adapter cases failed</span></div>
-        <div><h2>What these results mean</h2><p>These results apply only to the project’s 100-case evaluation and documented protocol.</p><p>The results do not measure performance on other datasets or algebra tasks.</p><a href={summary.documentation} target="_blank" rel="noreferrer">Detailed evaluation documentation <ExternalLink aria-hidden="true" /></a></div>
+        <div className="limitation-figure"><strong>{summary.scorer_false_negatives}</strong><span>manual equivalence cases</span></div>
+        <div><h2>What these results mean</h2><p>59/100 is the direct automated comparison. The separate 71/100 total includes equivalent outputs rejected by the frozen scorer.</p><p>These project-specific results do not measure performance on other datasets or algebra tasks.</p><a href={summary.documentation} target="_blank" rel="noreferrer">Detailed evaluation documentation <ExternalLink aria-hidden="true" /></a></div>
       </section>
-      <section className="card protocol-card"><h2>Paired accounting</h2><div className="paired-bar" aria-label="Paired outcomes"><span style={{ flex: summary.adapter_only }} className="bar-adapter">{summary.adapter_only} adapter-only</span><span style={{ flex: summary.base_only }} className="bar-base">{summary.base_only} base-only</span><span style={{ flex: summary.both_correct }} className="bar-both">{summary.both_correct} both correct</span><span style={{ flex: summary.both_incorrect }} className="bar-neither">{summary.both_incorrect} both incorrect</span></div></section>
+      <section className="card protocol-card"><h2>Original versus v2 automated</h2><div className="paired-bar" aria-label="Paired outcomes"><span style={{ flex: summary.v2_only }} className="bar-adapter">{summary.v2_only} v2-only</span><span style={{ flex: summary.original_only }} className="bar-base">{summary.original_only} original-only</span><span style={{ flex: summary.both_correct }} className="bar-both">{summary.both_correct} both correct</span><span style={{ flex: summary.both_incorrect }} className="bar-neither">{summary.both_incorrect} both incorrect</span></div></section>
     </div>
   )
 }

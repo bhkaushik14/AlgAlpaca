@@ -18,7 +18,7 @@ from codellama_algebra.demo_service import (
     sanitize_display,
     verify_adapter,
 )
-from codellama_algebra.confirmatory import render_confirmatory_prompt
+from codellama_algebra.confirmatory import FROZEN_GENERATION_CONFIG, render_confirmatory_prompt
 
 
 def output(raw: str) -> DemoGeneratedOutput:
@@ -31,6 +31,15 @@ def test_empty_and_overlength_input():
         pipeline.run("  ")
     with pytest.raises(DemoInputError):
         pipeline.run("x" * (MAX_PROBLEM_CHARS + 1))
+
+
+def test_v2_adapter_identity():
+    assert ADAPTER_WEIGHT_SHA256 == "a56735e268a5343a02966d3ad8513c2b4a6232b2ed97e9dcdfaa70404293215d"
+    assert ADAPTER_CONFIG_SHA256 == "67625139ecb7f71fee57be953ba8070a3f2f0981691038781747aa05b602e797"
+    assert (
+        FROZEN_GENERATION_CONFIG["adapter_sha256"]
+        == "4dfc1a875feccfdb7affd98326d63704b5cf0ec3509468ba505cd4978e5d02d3"
+    )
 
 
 def test_exact_frozen_prompt_construction():

@@ -14,8 +14,8 @@ const capabilities = {
 const status = {
   state: 'ready', adapter_verification: 'verified', verification_state: 'ready',
   load_state: 'loaded', retry_available: true, reason_code: '', request_busy: false,
-  message: 'ready', model: 'CodeLlama-7B-Instruct + QLoRA Adapter', base_model: 'base',
-  base_revision: '22cb240e', adapter_hash: '4dfc1a875fec',
+  message: 'ready', model: 'CodeLlama-7B-Instruct + AlgAlpaca v2 QLoRA', base_model: 'base',
+  base_revision: '22cb240e', adapter_hash: 'a56735e268a5',
 }
 const failedStatus = {
   ...status,
@@ -25,8 +25,10 @@ const failedStatus = {
 }
 const examples = [{ id: 'linear', category: 'Linear equation', title: 'Ticket total', problem: 'Solve 2x + 1 = 7.' }]
 const evaluation = {
-  base: { correct: 17, total: 100 }, adapter: { correct: 39, total: 100 }, adapter_failed: 61,
-  adapter_only: 27, base_only: 5, both_correct: 12, both_incorrect: 56,
+  base: { correct: 17, total: 100 }, original_adapter: { correct: 39, total: 100 },
+  v2_automated: { correct: 59, total: 100 }, v2_manual: { correct: 71, total: 100 },
+  original_executable: 61, v2_executable: 85, scorer_false_negatives: 12,
+  original_only: 11, v2_only: 31, both_correct: 28, both_incorrect: 30,
   protocol: 'Deterministic one-call, no-repair confirmatory protocol',
   limitation: 'Project-specific fixture.', documentation: '/project-docs/evaluation',
 }
@@ -92,7 +94,7 @@ describe('branding, routes, and copy', () => {
     expect(screen.getByText('Choose a problem to open in the workspace.')).toBeInTheDocument()
     expect(screen.getByText('These examples are separate from the project’s evaluation set.')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Evaluation' }))
-    expect(screen.getByText('The adapter solved 39 of 100 cases. The base model solved 17.')).toBeInTheDocument()
+    expect(screen.getByText('Automated correctness: 17/100 base, 39/100 original adapter, and 59/100 v2. V2’s separate manual mathematical review counted 71/100.')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Documentation' }))
     expect(screen.getByText('Architecture, evaluation, limitations, history, licensing, and model details.')).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'About' }))
@@ -105,9 +107,10 @@ describe('branding, routes, and copy', () => {
     render(<App />)
     await screen.findByText('Workspace')
     await user.click(screen.getByRole('button', { name: 'Evaluation' }))
-    for (const value of ['17/100', '39/100', '27', '5', '12', '56', '61/100']) expect(screen.getByText(value)).toBeInTheDocument()
+    for (const value of ['17/100', '39/100', '59/100', '71/100', '61/100', '85/100', '12']) expect(screen.getByText(value)).toBeInTheDocument()
+    for (const value of ['31 v2-only', '11 original-only', '28 both correct', '30 both incorrect']) expect(screen.getByText(value)).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'What these results mean' })).toBeInTheDocument()
-    expect(screen.getByText('The results do not measure performance on other datasets or algebra tasks.')).toBeInTheDocument()
+    expect(screen.getByText('These project-specific results do not measure performance on other datasets or algebra tasks.')).toBeInTheDocument()
   })
 
   it('uses the approved About cards and disclaimer', async () => {
@@ -384,7 +387,7 @@ describe('verification and request recovery', () => {
     expect(input).toHaveValue('Solve x + 1 = 2.')
     expect(document.body.textContent).not.toMatch(/\/home\/person|Traceback/)
     await user.click(screen.getByRole('button', { name: 'Evaluation' }))
-    expect(await screen.findByText('39/100')).toBeInTheDocument()
+    expect(await screen.findByText('59/100')).toBeInTheDocument()
   })
 
   it('enables generation after a deliberate successful retry without losing input', async () => {

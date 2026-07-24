@@ -52,6 +52,7 @@ def fake_project(tmp_path: Path) -> tuple[Path, dict[str, str]]:
         "#!/usr/bin/env bash\n"
         "if [[ ${1:-} == -c ]]; then exit 0; fi\n"
         "printf '%s\\n' \"${CODELLAMA_ALGEBRA_ADAPTER_PATH:-}\" > \"$CAPTURE/adapter\"\n"
+        "printf '%s\\n' \"${PYTHONPATH:-}\" > \"$CAPTURE/pythonpath\"\n"
         "printf '%s\\n' \"$*\" > \"$CAPTURE/python-args\"\n"
         "trap 'exit 130' INT TERM\n"
         "while :; do sleep 0.05; done\n",
@@ -188,6 +189,10 @@ def test_normal_launch_uses_local_web_module_and_ctrl_c_is_forwarded(tmp_path: P
                 break
             time.sleep(0.02)
         assert capture.read_text(encoding="utf-8").strip() == "-m codellama_algebra.web_api"
+        pythonpath = (
+            Path(environment["CAPTURE"]) / "pythonpath"
+        ).read_text(encoding="utf-8").strip()
+        assert pythonpath.split(os.pathsep)[0] == str(project / "src")
         assert "http://127.0.0.1:8000" in process.stdout.readline()
     finally:
         process.send_signal(signal.SIGINT)

@@ -44,6 +44,7 @@ packages = ["src/codellama_algebra"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = [".", "src"]
 
 [tool.ruff]
 target-version = "py310"

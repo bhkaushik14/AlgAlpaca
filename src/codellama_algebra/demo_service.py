@@ -17,8 +17,8 @@ from .confirmatory_tokenization import build_confirmatory_model_input
 from .confirmatory_validation import validate_confirmatory_code
 from .model import ModelLoadConfig, load_model
 
-ADAPTER_WEIGHT_SHA256 = "4dfc1a875feccfdb7affd98326d63704b5cf0ec3509468ba505cd4978e5d02d3"
-ADAPTER_CONFIG_SHA256 = "bbf5ae5d3acc45d2828cb5fd63746bd2d35d39ad6bfd1755d70f13b4140e53b2"
+ADAPTER_WEIGHT_SHA256 = "a56735e268a5343a02966d3ad8513c2b4a6232b2ed97e9dcdfaa70404293215d"
+ADAPTER_CONFIG_SHA256 = "67625139ecb7f71fee57be953ba8070a3f2f0981691038781747aa05b602e797"
 MAX_PROBLEM_CHARS = 2_000
 MAX_DISPLAY_STDOUT = 8_192
 MAX_DISPLAY_STDERR = 4_096

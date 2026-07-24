@@ -34,7 +34,7 @@ from .presentation import DisplayResult, SYNTAX_ERROR_SUMMARY, numeric_display, 
 
 PACKAGE_VERSION = "0.1.0.dev0"
 ADAPTER_ENV = "CODELLAMA_ALGEBRA_ADAPTER_PATH"
-MODEL_LABEL = "CodeLlama-7B-Instruct + QLoRA Adapter"
+MODEL_LABEL = "CodeLlama-7B-Instruct + AlgAlpaca v2 QLoRA"
 ADAPTER_WEIGHT_BYTES = 159_967_880
 ADAPTER_CONFIG_BYTES = 737
 VERIFICATION_MESSAGES = {
@@ -137,7 +137,7 @@ def _sha256_file(path: Path) -> str:
 
 
 def verify_web_adapter(adapter_path: Path) -> dict[str, str]:
-    """Verify the exact final adapter without path discovery or model loading."""
+    """Verify the exact v2 adapter without path discovery or model loading."""
 
     if adapter_path.is_symlink() or not adapter_path.is_dir():
         raise VerificationFailure("adapter_directory_unavailable")
@@ -552,20 +552,30 @@ def build_run_response(result: DemoResult, problem: str = "") -> dict[str, Any]:
 
 def _evaluation_summary() -> dict[str, Any]:
     data = json.loads(SUMMARY_PATH.read_text(encoding="utf-8"))
-    adapter = data["conditions"]["adapter"]["primary_correctness"]
     base = data["conditions"]["base"]["primary_correctness"]
-    paired = data["paired_outcomes"]
+    original = data["conditions"]["adapter"]
+    original_score = original["primary_correctness"]
+    v2_automated = data["conditions"]["v2"]["primary_correctness"]
+    v2_manual = data["conditions"]["v2"]["manual_correctness"]
+    paired = data["paired_original_v2_automated"]
     return {
         "schema_version": data["schema_version"],
         "base": {"correct": base["numerator"], "total": base["denominator"]},
-        "adapter": {"correct": adapter["numerator"], "total": adapter["denominator"]},
-        "adapter_failed": adapter["denominator"] - adapter["numerator"],
-        "adapter_only": paired["adapter_only_correct"],
-        "base_only": paired["base_only_correct"],
+        "original_adapter": {
+            "correct": original_score["numerator"],
+            "total": original_score["denominator"],
+        },
+        "v2_automated": {"correct": v2_automated["numerator"], "total": v2_automated["denominator"]},
+        "v2_manual": {"correct": v2_manual["numerator"], "total": v2_manual["denominator"]},
+        "original_executable": original["executable"]["numerator"],
+        "v2_executable": data["conditions"]["v2"]["executable"]["numerator"],
+        "scorer_false_negatives": v2_manual["scorer_false_negatives"],
+        "original_only": paired["original_only"],
+        "v2_only": paired["v2_only"],
         "both_correct": paired["both_correct"],
         "both_incorrect": paired["both_incorrect"],
         "protocol": "Deterministic one-call, no-repair confirmatory protocol",
-        "limitation": "Project-specific fixture; no external benchmark or general mathematical-superiority claim.",
+        "limitation": "Project-specific fixture; v2 still requires mathematical and code review.",
         "documentation": "/project-docs/evaluation",
     }
 

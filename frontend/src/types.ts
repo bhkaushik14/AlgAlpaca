@@ -94,10 +94,14 @@ export interface RunResult {
 
 export interface EvaluationSummary {
   base: { correct: number; total: number }
-  adapter: { correct: number; total: number }
-  adapter_failed: number
-  adapter_only: number
-  base_only: number
+  original_adapter: { correct: number; total: number }
+  v2_automated: { correct: number; total: number }
+  v2_manual: { correct: number; total: number }
+  original_executable: number
+  v2_executable: number
+  scorer_false_negatives: number
+  original_only: number
+  v2_only: number
   both_correct: number
   both_incorrect: number
   protocol: string

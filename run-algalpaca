@@ -19,6 +19,7 @@ root=$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
 python="$root/.venv/bin/python"
 frontend="$root/frontend"
 dist_index="$frontend/dist/index.html"
+export PYTHONPATH="$root/src${PYTHONPATH:+:$PYTHONPATH}"
 
 fail() {
   printf 'AlgAlpaca check failed: %s\n' "$1" >&2

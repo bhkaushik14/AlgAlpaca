@@ -1,0 +1,1024 @@
+case_id,category,problem,expected_answer_kind,expected_answer,raw_response,extracted_code,extraction_status,syntax_status,policy_status,execution_status,stdout,observable_status,parsed_answer,score_error,normalized_actual,automated_correct,failure_reason,manual_reviewed,manual_correct,manual_classification,manual_note
+confirm-linear-01,linear_equations,Determine every real x satisfying 3*(2*x - 5) + 4 = 5*x + 12.,finite_set,"[""23""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+equation = Eq(3*(2*x - (5)) + (4), 5*x + (12), evaluate=False)
+result = solveset(equation, x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+equation = Eq(3*(2*x - (5)) + (4), 5*x + (12), evaluate=False)
+result = solveset(equation, x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {23}
+",observable,{23},,{23},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-linear-02,linear_equations,Find all real solutions of (3*x + 5)/7 - (x - 4)/3 = 2.,finite_set,"[""-1/2""]","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+equation = Eq(Rational(1, 7)*(3*x + (5)) - Rational(1, 3)*(x - (4)), 2)
+result = solve(equation, x)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+equation = Eq(Rational(1, 7)*(3*x + (5)) - Rational(1, 3)*(x - (4)), 2)
+result = solve(equation, x)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: [-1/2]
+",observable,[-1/2],,{-1/2},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-linear-03,linear_equations,"Solve 4 - (5/6)*(x + 3) = -7/3 for real x, treating the fractions exactly.",finite_set,"[""23/5""]","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq(4 - (5/6)*(x + (3)), Rational(-7, 3)), x)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq(4 - (5/6)*(x + (3)), Rational(-7, 3)), x)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: [4.60000000000000]
+",observable,[4.60000000000000],incorrect_answer,{4.6},False,scoring_error:incorrect_answer,True,True,scorer_false_negative,The printed decimal 4.60000000000000 is exactly 23/5.
+confirm-linear-04,linear_equations,"Over the reals, determine x from (7/4)*x + 5/6 = -11/3 using exact rational arithmetic.",finite_set,"[""-18/7""]","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq((7/4)*x + (5/6), Rational(-11, 3)), x)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq((7/4)*x + (5/6), Rational(-11, 3)), x)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: [-2.57142857142857]
+",observable,[-2.57142857142857],incorrect_answer,{-2.57142857142857},False,scoring_error:incorrect_answer,True,True,scorer_false_negative,The printed decimal is the displayed floating-point approximation of -18/7.
+confirm-linear-05,linear_equations,List the real solutions of 2*(3*x - 5) - 4*(x + 1) = 18.,finite_set,"[""16""]","from sympy import Eq, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq(2*(3*x - (5)) - (4*(x + (1))), 18), x)
+print(""ANSWER:"", result)","from sympy import Eq, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq(2*(3*x - (5)) - (4*(x + (1))), 18), x)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: [16]
+",observable,[16],,{16},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-linear-06,linear_equations,"For real x, solve the proportion (x + 2)/5 = (2*x - 7)/3 exactly.",finite_set,"[""41/7""]","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq((x + 2)/5, Rational(2*x - 7, 3)), x)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq((x + 2)/5, Rational(2*x - 7, 3)), x)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,nonzero_exit,,not_reached,,,,False,execution_error:nonzero_exit,True,False,execution_failure,"Rational was called with a symbolic numerator, causing a TypeError before output."
+confirm-linear-07,linear_equations,Find every real x such that 9 - 2*(x - 6) = 3*(x + 1).,finite_set,"[""18/5""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+equation = Eq(9 - 2*(x - 6), 3*(x + 1), evaluate=False)
+result = solveset(equation, x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+equation = Eq(9 - 2*(x - 6), 3*(x + 1), evaluate=False)
+result = solveset(equation, x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {18/5}
+",observable,{18/5},,{18/5},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-linear-08,linear_equations,Determine the real solution of 5*(x/2 - 3) = 2*(x + 4).,finite_set,"[""46""]","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq(5*(x/2 - 3), 2*(x + 4)), x)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq(5*(x/2 - 3), 2*(x + 4)), x)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: [46]
+",observable,[46],,{46},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-linear-09,linear_equations,Find the real solution set of 3*(2*x + 5) = 6*x + 11.,finite_set,[],"from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+equation = Eq(3*(2*x + (5)), 6*x + (11), evaluate=False)
+result = solveset(equation, x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+equation = Eq(3*(2*x + (5)), 6*x + (11), evaluate=False)
+result = solveset(equation, x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: EmptySet
+",observable,EmptySet,,EmptySet,True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-linear-10,linear_equations,Describe all real x satisfying 4*(x - 3) + 7 = 4*x - 5.,interval_set,"""Interval(-oo, oo)""","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+equation = Eq(4*(x - 3) + (7), 4*x - 5, evaluate=False)
+result = solveset(equation, x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+equation = Eq(4*(x - 3) + (7), 4*x - 5, evaluate=False)
+result = solveset(equation, x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: Reals
+",observable,Reals,,"Interval(-oo, oo)",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-quadratic-01,quadratic_equations,Find all real roots of 3*x**2 - 10*x - 8 = 0.,finite_set,"[""-2/3"", ""4""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(3*x**2 - 10*x - 8, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(3*x**2 - 10*x - 8, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-2/3, 4}
+",observable,"{-2/3, 4}",,"{-2/3, 4}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-quadratic-02,quadratic_equations,"Over the reals, solve (2*x + 5)**2 = 49.",finite_set,"[""-6"", ""1""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((2*x + (5))**2, 49), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((2*x + (5))**2, 49), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-6, 1}
+",observable,"{-6, 1}",,"{-6, 1}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-quadratic-03,quadratic_equations,Determine every complex solution of x**2 + 6*x + 13 = 0.,finite_set,"[""-3 - 2*I"", ""-3 + 2*I""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**2 + (6)*x + (13), 0), x, domain=S.Complexes)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**2 + (6)*x + (13), 0), x, domain=S.Complexes)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-3 - 2*I, -3 + 2*I}
+",observable,"{-3 - 2*I, -3 + 2*I}",,"{-3 - 2*I, -3 + 2*I}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-quadratic-04,quadratic_equations,List the distinct real roots of 5*x**2 - 20*x + 20 = 0.,finite_set,"[""2""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(5*x**2 - 20*x + 20, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(5*x**2 - 20*x + 20, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {2}
+",observable,{2},,{2},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-quadratic-05,quadratic_equations,Solve x**2 - 2*x - 7 = 0 over the reals and keep exact radicals.,finite_set,"[""1 - 2*sqrt(2)"", ""1 + 2*sqrt(2)""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x**2 - 2*x - 7, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x**2 - 2*x - 7, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {1 - 2*sqrt(2), 1 + 2*sqrt(2)}
+",observable,"{1 - 2*sqrt(2), 1 + 2*sqrt(2)}",,"{1 - 2*sqrt(2), 1 + 2*sqrt(2)}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-quadratic-06,quadratic_equations,Find the real solution set of 4*x**2 + 4*x + 5 = 0.,finite_set,[],"from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(4*x**2 + (4)*x + (5), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(4*x**2 + (4)*x + (5), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: EmptySet
+",observable,EmptySet,,EmptySet,True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-quadratic-07,quadratic_equations,"For real x, determine all values satisfying x*(x - 9) = 22.",finite_set,"[""-2"", ""11""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x*(x - 9), 22), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x*(x - 9), 22), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-2, 11}
+",observable,"{-2, 11}",,"{-2, 11}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-quadratic-08,quadratic_equations,"Solve (x - 1)*(x + 4) = 12 over the reals, reporting exact values.",finite_set,"[""(-3 - sqrt(73))/2"", ""(-3 + sqrt(73))/2""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((x - 1)*(x + 4), 12), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((x - 1)*(x + 4), 12), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-3/2 + sqrt(73)/2, -sqrt(73)/2 - 3/2}
+",observable,"{-3/2 + sqrt(73)/2, -sqrt(73)/2 - 3/2}",,"{-3/2 + sqrt(73)/2, -sqrt(73)/2 - 3/2}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-quadratic-09,quadratic_equations,"Using exact fractions, solve (1/2)*x**2 - (5/3)*x + 4/3 = 0 over the reals.",finite_set,"[""4/3"", ""2""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((1/2)*x**2 - (5/3)*x + (4/3), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((1/2)*x**2 - (5/3)*x + (4/3), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {1.33333333333333, 2.0}
+",observable,"{1.33333333333333, 2.0}",incorrect_answer,"{1.33333333333333, 2.0}",False,scoring_error:incorrect_answer,True,True,scorer_false_negative,The two printed floats numerically represent the expected roots 4/3 and 2.
+confirm-quadratic-10,quadratic_equations,Find every complex x satisfying x**2 = -16.,finite_set,"[""-4*I"", ""4*I""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**2, -16), x, domain=S.COMPLEX)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**2, -16), x, domain=S.COMPLEX)
+print(""ANSWER:"", result)",accepted:raw_python,passed,failed,not_reached,,not_reached,,,,False,policy_rejection,True,False,policy_failure,The non-allowlisted and invalid S.COMPLEX attribute was rejected before execution.
+confirm-system-01,systems_of_equations,Solve 3*x + 2*y = 19 and 5*x - y = 18 for real x and y.,variable_mapping,"{""x"": ""55/13"", ""y"": ""41/13""}","from sympy import Eq, linsolve, symbols
+
+x, y = symbols(""x y"", real=True)
+result = linsolve((Eq(3*x + (2)*y, 19), Eq(5*x - y, 18)), (x, y))
+print(""ANSWER:"", result)","from sympy import Eq, linsolve, symbols
+
+x, y = symbols(""x y"", real=True)
+result = linsolve((Eq(3*x + (2)*y, 19), Eq(5*x - y, 18)), (x, y))
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {(55/13, 41/13)}
+",observable,"{(55/13, 41/13)}",malformed_answer,,False,scoring_error:malformed_answer,True,True,scorer_false_negative,"The ordered tuple (55/13, 41/13) matches variables (x, y)."
+confirm-system-02,systems_of_equations,"Over the reals, determine x and y from x - 3*y = -14 and 4*x + y = 9.",variable_mapping,"{""x"": ""1"", ""y"": ""5""}","from sympy import Eq, linsolve, symbols
+
+x, y = symbols(""x y"", real=True)
+result = linsolve((Eq(x - (3)*y, -14), Eq(4*x + y, 9)), (x, y))
+print(""ANSWER:"", result)","from sympy import Eq, linsolve, symbols
+
+x, y = symbols(""x y"", real=True)
+result = linsolve((Eq(x - (3)*y, -14), Eq(4*x + y, 9)), (x, y))
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {(1, 5)}
+",observable,"{(1, 5)}",malformed_answer,,False,scoring_error:malformed_answer,True,True,scorer_false_negative,"The ordered tuple (1, 5) matches variables (x, y)."
+confirm-system-03,systems_of_equations,"Find real a and b satisfying a/2 + b/3 = 5 and a - b = 1, with exact fractions.",variable_mapping,"{""a"": ""32/5"", ""b"": ""27/5""}","from sympy import Eq, Rational, symbols, solve
+
+a, b = symbols(""a b"", real=True)
+equation = Eq(a/2 + b/3, 5)
+result = solve(equation, a, b)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, symbols, solve
+
+a, b = symbols(""a b"", real=True)
+equation = Eq(a/2 + b/3, 5)
+result = solve(equation, a, b)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: [(10 - 2*b/3, b)]
+",observable,"[(10 - 2*b/3, b)]",malformed_answer,,False,scoring_error:malformed_answer,True,False,mathematically_wrong_answer,"Only the first equation was solved, leaving a free parameter."
+confirm-system-04,systems_of_equations,"Solve x + y + z = 4, 2*x - y + 3*z = 14, and -x + 4*y + z = -3 over the reals.",variable_mapping,"{""x"": ""2"", ""y"": ""-1"", ""z"": ""3""}","from sympy import Eq, linsolve, symbols
+
+x, y, z = symbols(""x y z"", real=True)
+result = linsolve((Eq(x + y + z, 4), Eq(2*x - y + 3*z, 14), Eq(-x + 4*y + z, -3)), (x, y, z))
+print(""ANSWER:"", result)","from sympy import Eq, linsolve, symbols
+
+x, y, z = symbols(""x y z"", real=True)
+result = linsolve((Eq(x + y + z, 4), Eq(2*x - y + 3*z, 14), Eq(-x + 4*y + z, -3)), (x, y, z))
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {(2, -1, 3)}
+",observable,"{(2, -1, 3)}",malformed_answer,,False,scoring_error:malformed_answer,True,True,scorer_false_negative,"The ordered tuple (2, -1, 3) matches variables (x, y, z)."
+confirm-system-05,systems_of_equations,"Determine the real triple solving 3*x + y - z = -3, x - 2*y + 5*z = -5, and 2*x + 3*y + z = 9.",variable_mapping,"{""x"": ""-2"", ""y"": ""4"", ""z"": ""1""}","from sympy import Eq, linsolve, symbols
+
+x, y, z = symbols(""x y z"", real=True)
+result = linsolve((Eq(3*x + (y) - (z), -3), Eq(x - (2)*y + (5)*z, -5), Eq(2*x + (3)*y + z, 9)), (x, y, z))
+print(""ANSWER:"", result)","from sympy import Eq, linsolve, symbols
+
+x, y, z = symbols(""x y z"", real=True)
+result = linsolve((Eq(3*x + (y) - (z), -3), Eq(x - (2)*y + (5)*z, -5), Eq(2*x + (3)*y + z, 9)), (x, y, z))
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {(-2, 4, 1)}
+",observable,"{(-2, 4, 1)}",malformed_answer,,False,scoring_error:malformed_answer,True,True,scorer_false_negative,"The ordered tuple (-2, 4, 1) matches variables (x, y, z)."
+confirm-system-06,systems_of_equations,Positive real numbers x and y satisfy x + y = 10 and x*y = 21. Find the unique ordered pair with x < y.,variable_mapping,"{""x"": ""3"", ""y"": ""7""}","from sympy import Eq, symbols, solve
+
+x, y = symbols(""x y"", real=True)
+result = solve(Eq(x + y, 10) & Eq(x*y, 21), (x, y))
+print(""ANSWER:"", result)","from sympy import Eq, symbols, solve
+
+x, y = symbols(""x y"", real=True)
+result = solve(Eq(x + y, 10) & Eq(x*y, 21), (x, y))
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,nonzero_exit,,not_reached,,,,False,execution_error:nonzero_exit,True,False,execution_failure,The conjunction was passed to solve in an unsupported form and raised before output.
+confirm-system-07,systems_of_equations,Real x and y obey x + y = 1 and x**2 + y**2 = 25. Determine the ordered solution for which x > y.,variable_mapping,"{""x"": ""4"", ""y"": ""-3""}","from sympy import Eq, S, solveset, symbols
+
+x, y = symbols(""x y"", real=True)
+result = solveset(Eq(x + y, 1), x, domain=S.Reals) & solveset(Eq(x**2 + y**2, 25), y, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x, y = symbols(""x y"", real=True)
+result = solveset(Eq(x + y, 1), x, domain=S.Reals) & solveset(Eq(x**2 + y**2, 25), y, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: Intersection({1 - y}, {-sqrt(25 - x**2), sqrt(25 - x**2)}, Reals)
+",observable,"Intersection({1 - y}, {-sqrt(25 - x**2), sqrt(25 - x**2)}, Reals)",malformed_answer,,False,scoring_error:malformed_answer,True,False,mathematically_wrong_answer,"The output is an unresolved intersection, not the requested ordered solution."
+confirm-system-08,systems_of_equations,Find exact real x and y when x + y = sqrt(2) and x - y = sqrt(8).,variable_mapping,"{""x"": ""3*sqrt(2)/2"", ""y"": ""-sqrt(2)/2""}","from sympy import Eq, S, solveset, sqrt, symbols
+
+x, y = symbols(""x y"", real=True)
+result = solveset(Eq(x + y, sqrt(2)), x, domain=S.Reals) & solveset(Eq(x - y, sqrt(8)), y, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, sqrt, symbols
+
+x, y = symbols(""x y"", real=True)
+result = solveset(Eq(x + y, sqrt(2)), x, domain=S.Reals) & solveset(Eq(x - y, sqrt(8)), y, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: Intersection({x - 2*sqrt(2)}, {-y + sqrt(2)})
+",observable,"Intersection({x - 2*sqrt(2)}, {-y + sqrt(2)})",malformed_answer,,False,scoring_error:malformed_answer,True,False,mathematically_wrong_answer,"The output is an unresolved intersection, not values for x and y."
+confirm-system-09,systems_of_equations,Solve 2*p + 5*q = 1 and 3*p - q = 14 for real p and q.,variable_mapping,"{""p"": ""71/17"", ""q"": ""-25/17""}","from sympy import Eq, linsolve, symbols
+
+p, q = symbols(""p q"", real=True)
+result = linsolve((Eq(2*p + (5)*q, 1), Eq(3*p - q, 14)), (p, q))
+print(""ANSWER:"", result)","from sympy import Eq, linsolve, symbols
+
+p, q = symbols(""p q"", real=True)
+result = linsolve((Eq(2*p + (5)*q, 1), Eq(3*p - q, 14)), (p, q))
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {(71/17, -25/17)}
+",observable,"{(71/17, -25/17)}",malformed_answer,,False,scoring_error:malformed_answer,True,True,scorer_false_negative,"The ordered tuple (71/17, -25/17) matches variables (p, q)."
+confirm-system-10,systems_of_equations,"Using exact arithmetic, solve x + y + z = 1/6, 2*x - 3*y + z = -2, and 4*x + y - 2*z = 14/3.",variable_mapping,"{""x"": ""1/2"", ""y"": ""2/3"", ""z"": ""-1""}","from sympy import Eq, linsolve, symbols
+
+x, y, z = symbols(""x y z"", real=True)
+result = linsolve((Eq(x + y + z, 1/6), Eq(2*x - 3*y + z, -2), Eq(4*x + y - 2*z, 14/3)), (x, y, z))
+print(""ANSWER:"", result)","from sympy import Eq, linsolve, symbols
+
+x, y, z = symbols(""x y z"", real=True)
+result = linsolve((Eq(x + y + z, 1/6), Eq(2*x - 3*y + z, -2), Eq(4*x + y - 2*z, 14/3)), (x, y, z))
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {(0.5, 0.666666666666667, -1.0)}
+",observable,"{(0.5, 0.666666666666667, -1.0)}",malformed_answer,,False,scoring_error:malformed_answer,True,True,scorer_false_negative,"The ordered float tuple numerically represents (1/2, 2/3, -1)."
+confirm-polynomial-01,polynomial_roots_or_factorization,Find every real root of x**3 - 2*x**2 - 19*x + 20 = 0.,finite_set,"[""-4"", ""1"", ""5""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x**3 - 2*x**2 - 19*x + 20, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x**3 - 2*x**2 - 19*x + 20, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-4, 1, 5}
+",observable,"{-4, 1, 5}",,"{-4, 1, 5}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-polynomial-02,polynomial_roots_or_factorization,List the distinct real zeros of x**3 - x**2 - 8*x + 12.,finite_set,"[""-3"", ""2""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x**3 - x**2 - 8*x + 12, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x**3 - x**2 - 8*x + 12, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-3, 2}
+",observable,"{-3, 2}",,"{-3, 2}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-polynomial-03,polynomial_roots_or_factorization,"Determine all real roots of x**4 - 8*x**2 + 15 = 0, keeping radicals exact.",finite_set,"[""-sqrt(5)"", ""-sqrt(3)"", ""sqrt(3)"", ""sqrt(5)""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x**4 - 8*x**2 + 15, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x**4 - 8*x**2 + 15, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-sqrt(3), sqrt(3), -sqrt(5), sqrt(5)}
+",observable,"{-sqrt(3), sqrt(3), -sqrt(5), sqrt(5)}",,"{-sqrt(3), sqrt(3), -sqrt(5), sqrt(5)}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-polynomial-04,polynomial_roots_or_factorization,Find every complex zero of x**4 + 5*x**2 - 36.,finite_set,"[""-2"", ""2"", ""-3*I"", ""3*I""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**4 + 5*x**2 - 36, 0), x, domain=S.Complexes)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**4 + 5*x**2 - 36, 0), x, domain=S.Complexes)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-2, 2, -3*I, 3*I}
+",observable,"{-2, 2, -3*I, 3*I}",,"{-2, 2, -3*I, 3*I}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-polynomial-05,polynomial_roots_or_factorization,List all distinct real roots of (x + 2)*(x + 1)*x*(x - 3)*(x - 4) = 0.,finite_set,"[""-2"", ""-1"", ""0"", ""3"", ""4""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((x + 2)*(x + 1)*x*(x - 3)*(x - 4), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((x + 2)*(x + 1)*x*(x - 3)*(x - 4), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-2, -1, 0, 3, 4}
+",observable,"{-2, -1, 0, 3, 4}",,"{-2, -1, 0, 3, 4}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-polynomial-06,polynomial_roots_or_factorization,Determine all complex solutions of x**3 - 8 = 0.,finite_set,"[""2"", ""-1 - sqrt(3)*I"", ""-1 + sqrt(3)*I""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**3 - 8, 0), x, domain=S.Complexes)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**3 - 8, 0), x, domain=S.Complexes)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {2, -1 - sqrt(3)*I, -1 + sqrt(3)*I}
+",observable,"{2, -1 - sqrt(3)*I, -1 + sqrt(3)*I}",,"{2, -1 - sqrt(3)*I, -1 + sqrt(3)*I}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-polynomial-07,polynomial_roots_or_factorization,Find the distinct real roots of (x - 2)**2*(x + 5)**2 = 0 and note that multiplicity does not create new solution values.,finite_set,"[""-5"", ""2""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((x - 2)**2*(x + 5)**2, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((x - 2)**2*(x + 5)**2, 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-5, 2}
+",observable,"{-5, 2}",,"{-5, 2}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-polynomial-08,polynomial_roots_or_factorization,List every complex root of (2*x - 3)*(x + 2)*(x**2 + 1) = 0.,finite_set,"[""3/2"", ""-2"", ""-I"", ""I""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq((2*x - 3)*(x + 2)*(x**2 + 1), 0), x, domain=S.Complexes)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq((2*x - 3)*(x + 2)*(x**2 + 1), 0), x, domain=S.Complexes)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-2, 3/2, -I, I}
+",observable,"{-2, 3/2, -I, I}",,"{-2, 3/2, -I, I}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-polynomial-09,polynomial_roots_or_factorization,Find all complex values x for which x**4 + 4 = 0.,finite_set,"[""-1 - I"", ""-1 + I"", ""1 - I"", ""1 + I""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**4 + 4, 0), x, domain=S.Complexes)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**4 + 4, 0), x, domain=S.Complexes)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-1 - I, -1 + I, 1 - I, 1 + I}
+",observable,"{-1 - I, -1 + I, 1 - I, 1 + I}",,"{-1 - I, -1 + I, 1 - I, 1 + I}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-polynomial-10,polynomial_roots_or_factorization,Determine the complete set of complex sixth roots of unity by solving x**6 - 1 = 0 exactly.,finite_set,"[""-1"", ""1"", ""1/2 + sqrt(3)*I/2"", ""1/2 - sqrt(3)*I/2"", ""-1/2 + sqrt(3)*I/2"", ""-1/2 - sqrt(3)*I/2""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**6 - 1, 0), x, domain=S.COMPLEX)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", complex=True)
+result = solveset(Eq(x**6 - 1, 0), x, domain=S.COMPLEX)
+print(""ANSWER:"", result)",accepted:raw_python,passed,failed,not_reached,,not_reached,,,,False,policy_rejection,True,False,policy_failure,The non-allowlisted and invalid S.COMPLEX attribute was rejected before execution.
+confirm-rational-01,rational_equations,Solve (2*x - 5)/(x + 4) = 3/2 over the reals while preserving the original denominator restriction.,finite_set,"[""22""]","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((2*x - (5))/(x + (4)), Rational(3, 2)), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((2*x - (5))/(x + (4)), Rational(3, 2)), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {22}
+",observable,{22},,{22},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-rational-02,rational_equations,"Find all real x satisfying 1/(x - 2) + 2/(x + 3) = 0, respecting every denominator exclusion.",finite_set,"[""1/3""]","from sympy import Eq, FiniteSet, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+domain = S.Reals - FiniteSet(2)
+result = solveset(Eq(1/(x - 2) + (2)/(x + 3), 0), x, domain=domain)
+print(""ANSWER:"", result)","from sympy import Eq, FiniteSet, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+domain = S.Reals - FiniteSet(2)
+result = solveset(Eq(1/(x - 2) + (2)/(x + 3), 0), x, domain=domain)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {1/3}
+",observable,{1/3},,{1/3},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-rational-03,rational_equations,"Over the reals, solve (x**2 - 16)/(x - 4) = x + 4 under the domain of the unsimplified left side.",interval_set,"""Complement(Interval(-oo, oo), FiniteSet(4))""","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((x**2 - 16)/(x - 4), x + 4), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((x**2 - 16)/(x - 4), x + 4), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: Union(Interval.open(-oo, 4), Interval.open(4, oo))
+",observable,"Union(Interval.open(-oo, 4), Interval.open(4, oo))",,"Union(Interval.open(-oo, 4), Interval.open(4, oo))",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-rational-04,rational_equations,Determine the real solution set of (x**2 - 25)/(x + 5) = 0 using the original rational domain.,finite_set,"[""5""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((x**2 - 25)/(x + 5), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((x**2 - 25)/(x + 5), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {5}
+",observable,{5},,{5},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-rational-05,rational_equations,"For real x != 1, solve 3/(x - 1) = x + 1.",finite_set,"[""-2"", ""2""]","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(3/(x - 1), x + 1), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(3/(x - 1), x + 1), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-2, 2}
+",observable,"{-2, 2}",,"{-2, 2}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-rational-06,rational_equations,Solve 1/x + 1/(x - 4) = 1 over the reals with all original denominator restrictions.,finite_set,"[""3 - sqrt(5)"", ""3 + sqrt(5)""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(1/x + 1/(x - 4), 1), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(1/x + 1/(x - 4), 1), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {3 - sqrt(5), sqrt(5) + 3}
+",observable,"{3 - sqrt(5), sqrt(5) + 3}",,"{3 - sqrt(5), sqrt(5) + 3}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-rational-07,rational_equations,"Find real x satisfying (x + 2)/(x - 3) = (x - 1)/(x + 4), retaining the original domain.",finite_set,"[""-1/2""]","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+equation = Eq(Rational(1, x + (2)), Rational(1, x - (1))).expand()
+result = solveset(equation, x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+equation = Eq(Rational(1, x + (2)), Rational(1, x - (1))).expand()
+result = solveset(equation, x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,nonzero_exit,,not_reached,,,,False,execution_error:nonzero_exit,True,False,execution_failure,"Rational was called with a symbolic denominator, causing a TypeError before output."
+confirm-rational-08,rational_equations,"Over the reals, solve 2/(x + 1) - 5/(x - 2) = 0 without admitting denominator zeros.",finite_set,"[""-3""]","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(2/(x + (1)), Rational(5, x - (2))), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(2/(x + (1)), Rational(5, x - (2))), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,nonzero_exit,,not_reached,,,,False,execution_error:nonzero_exit,True,False,execution_failure,"Rational was called with a symbolic denominator, causing a TypeError before output."
+confirm-rational-09,rational_equations,Find the real solution set of x/(x - 6) + 6/(6 - x) = 2 under the original domain.,finite_set,[],"from sympy import Eq, FiniteSet, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+domain = S.Reals
+result = solveset(Eq(x/(x - 6) + 6/(6 - x), 2), x, domain=domain)
+print(""ANSWER:"", result)","from sympy import Eq, FiniteSet, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+domain = S.Reals
+result = solveset(Eq(x/(x - 6) + 6/(6 - x), 2), x, domain=domain)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: EmptySet
+",observable,EmptySet,,EmptySet,True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-rational-10,rational_equations,"Solve 1/(x + 2) + 1/(x - 2) = x/(x**2 - 4) over the reals, enforcing the unsimplified domain.",finite_set,"[""0""]","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+domain = S.Reals
+result = solveset(Eq(1/(x + (2)) + 1/(x - (2)), x/(x**2 - (4)), evaluate=False), x, domain=domain)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+domain = S.Reals
+result = solveset(Eq(1/(x + (2)) + 1/(x - (2)), x/(x**2 - (4)), evaluate=False), x, domain=domain)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {0}
+",observable,{0},,{0},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-inequality-01,inequalities,Return the real solution set of 5 - 3*x < -7.,interval_set,"""Interval.open(4, oo)""","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality(5 - 3*x < -7, x, relational=False)
+print(""ANSWER:"", result)","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality(5 - 3*x < -7, x, relational=False)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: Interval.open(4, oo)
+",observable,"Interval.open(4, oo)",,"Interval.open(4, oo)",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-inequality-02,inequalities,"Describe all real x for which (2/3)*x + 1 >= 5, using an interval or equivalent relation.",interval_set,"""Interval(6, oo)""","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality((2/3)*x + (1) >= 5, x, relational=False)
+print(""ANSWER:"", result)","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality((2/3)*x + (1) >= 5, x, relational=False)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: Interval(6.00000000000000, oo)
+",observable,"Interval(6.00000000000000, oo)",incorrect_answer,"Interval(6.00000000000000, oo)",False,scoring_error:incorrect_answer,True,True,scorer_false_negative,"Interval(6.00000000000000, oo) is the expected closed interval from 6."
+confirm-inequality-03,inequalities,Find the complete real solution set of x**2 - 9 <= 0.,interval_set,"""Interval(-3, 3)""","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality(x**2 - 9 <= 0, x, relational=False)
+print(""ANSWER:"", result)","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality(x**2 - 9 <= 0, x, relational=False)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: Interval(-3, 3)
+",observable,"Interval(-3, 3)",,"Interval(-3, 3)",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-inequality-04,inequalities,Return the real set satisfying (x + 2)*(x - 5) > 0.,interval_set,"""Union(Interval.open(-oo, -2), Interval.open(5, oo))""","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality((x + 2)*(x - 5) > 0, x, relational=False)
+print(""ANSWER:"", result)","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality((x + 2)*(x - 5) > 0, x, relational=False)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: Union(Interval.open(-oo, -2), Interval.open(5, oo))
+",observable,"Union(Interval.open(-oo, -2), Interval.open(5, oo))",,"Union(Interval.open(-oo, -2), Interval.open(5, oo))",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-inequality-05,inequalities,Solve (x - 4)/(x + 3) <= 0 over the reals and exclude every denominator zero.,interval_set,"""Interval.Lopen(-3, 4)""","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality((x - 4)/(x + 3) <= 0, x, relational=False)
+print(""ANSWER:"", result)","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality((x - 4)/(x + 3) <= 0, x, relational=False)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: Interval.Lopen(-3, 4)
+",observable,"Interval.Lopen(-3, 4)",,"Interval.Lopen(-3, 4)",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-inequality-06,inequalities,"For real x, solve Abs(x - 1) < 4 and return the interval.",interval_set,"""Interval.open(-3, 5)""","from sympy import Abs, reduce_inequalities, symbols
+
+x = symbols(""x"", real=True)
+result = reduce_inequalities([Abs(x - 1) < 4], x).as_set()
+print(""ANSWER:"", result)","from sympy import Abs, reduce_inequalities, symbols
+
+x = symbols(""x"", real=True)
+result = reduce_inequalities([Abs(x - 1) < 4], x).as_set()
+print(""ANSWER:"", result)",accepted:raw_python,passed,failed,not_reached,,not_reached,,,,False,policy_rejection,True,False,policy_failure,The non-allowlisted reduce_inequalities import and call were rejected.
+confirm-inequality-07,inequalities,Describe all real solutions of Abs(2*x + 5) >= 3.,interval_set,"""Union(Interval(-oo, -4), Interval(-1, oo))""","from sympy import Abs, solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality(Abs(2*x + (5)) >= 3, x, relational=False)
+print(""ANSWER:"", result)","from sympy import Abs, solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality(Abs(2*x + (5)) >= 3, x, relational=False)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: Union(Interval(-oo, -4), Interval(-1, oo))
+",observable,"Union(Interval(-oo, -4), Interval(-1, oo))",,"Union(Interval(-oo, -4), Interval(-1, oo))",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-inequality-08,inequalities,Find the real x satisfying both 1 < 2*x + 3 and 2*x + 3 <= 9.,interval_set,"""Interval.Lopen(-1, 3)""","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality(1 < 2*x + (3) & (2*x + (3)) <= 9, x, relational=False)
+print(""ANSWER:"", result)","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality(1 < 2*x + (3) & (2*x + (3)) <= 9, x, relational=False)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,nonzero_exit,,not_reached,,,,False,execution_error:nonzero_exit,True,False,execution_failure,The compound inequality used invalid operator grouping and raised before output.
+confirm-inequality-09,inequalities,Return the real solution set of x**2 + 4*x + 5 > 0.,interval_set,"""Interval(-oo, oo)""","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x**2 + (4)*x + (5), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(x**2 + (4)*x + (5), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: EmptySet
+",observable,EmptySet,incorrect_answer,EmptySet,False,scoring_error:incorrect_answer,True,False,mathematically_wrong_answer,The program solved an equality and returned EmptySet instead of all real numbers.
+confirm-inequality-10,inequalities,Determine the real solution set of (x - 1)**2 < 0.,interval_set,"""EmptySet""","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality((x - 1)**2 < 0, x, relational=False)
+print(""ANSWER:"", result)","from sympy import solve_univariate_inequality, symbols
+
+x = symbols(""x"", real=True)
+result = solve_univariate_inequality((x - 1)**2 < 0, x, relational=False)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: EmptySet
+",observable,EmptySet,,EmptySet,True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-simplify-01,simplification_or_evaluation,Expand and combine (3*x + 2)*(2*x**2 - x + 5) as a polynomial equivalent for every x.,symbolic_expression,"""6*x**3 + x**2 + 13*x + 10""","from sympy import expand, symbols
+
+x = symbols(""x"")
+result = expand((3*x + 2)*(2*x**2 - x + 5))
+print(""ANSWER:"", result)","from sympy import expand, symbols
+
+x = symbols(""x"")
+result = expand((3*x + 2)*(2*x**2 - x + 5))
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: 6*x**3 + x**2 + 13*x + 10
+",observable,6*x**3 + x**2 + 13*x + 10,,6*x**3 + x**2 + 13*x + 10,True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-simplify-02,simplification_or_evaluation,Evaluate (7/3)**2 - 5*(7/3) + 4 exactly.,exact_number,"""-20/9""","from sympy import Rational, symbols
+
+x = symbols(""x"", real=True)
+result = (7/3)**2 - 5*(7/3) + (4)
+result = result.subs(x, Rational(7, 3))
+print(""ANSWER:"", result)","from sympy import Rational, symbols
+
+x = symbols(""x"", real=True)
+result = (7/3)**2 - 5*(7/3) + (4)
+result = result.subs(x, Rational(7, 3))
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,nonzero_exit,,not_reached,,,,False,execution_error:nonzero_exit,True,False,execution_failure,A Python float was treated as a SymPy expression and raised before output.
+confirm-simplify-03,simplification_or_evaluation,Let g(t) = 2*t**3 - t**2 + 4. Compute g(-2) exactly.,exact_number,"""-16""","from sympy import symbols
+
+t = symbols(""t"")
+g = 2*t**3 - t**2 + (4)
+result = g.subs(t, -2)
+print(""ANSWER:"", result)","from sympy import symbols
+
+t = symbols(""t"")
+g = 2*t**3 - t**2 + (4)
+result = g.subs(t, -2)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: -16
+",observable,-16,,-16,True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-simplify-04,simplification_or_evaluation,Simplify sqrt(98) + sqrt(8) - sqrt(50) exactly using principal real square roots.,exact_number,"""4*sqrt(2)""","from sympy import simplify, sqrt
+
+x = sqrt(98) + sqrt(8) - sqrt(50)
+result = simplify(x)
+print(""ANSWER:"", result)","from sympy import simplify, sqrt
+
+x = sqrt(98) + sqrt(8) - sqrt(50)
+result = simplify(x)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: 4*sqrt(2)
+",observable,4*sqrt(2),,4*sqrt(2),True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-simplify-05,simplification_or_evaluation,Evaluate (1 + sqrt(5))**2 exactly over the reals.,exact_number,"""6 + 2*sqrt(5)""","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((1 + sqrt(5))**2, x), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq((1 + sqrt(5))**2, x), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {(1 + sqrt(5))**2}
+",observable,{(1 + sqrt(5))**2},malformed_answer,,False,scoring_error:malformed_answer,True,True,scorer_false_negative,"The singleton contains (1 + sqrt(5))**2, exactly equal to 6 + 2*sqrt(5)."
+confirm-simplify-06,simplification_or_evaluation,Combine (2/3)*x + (5/6)*x - x/4 into an algebraically equivalent expression.,symbolic_expression,"""5*x/4""","from sympy import combine_like_terms, symbols
+
+x = symbols(""x"")
+result = combine_like_terms(2/3*x + (5/6)*x - x/4)
+print(""ANSWER:"", result)","from sympy import combine_like_terms, symbols
+
+x = symbols(""x"")
+result = combine_like_terms(2/3*x + (5/6)*x - x/4)
+print(""ANSWER:"", result)",accepted:raw_python,passed,failed,not_reached,,not_reached,,,,False,policy_rejection,True,False,policy_failure,The non-allowlisted combine_like_terms import and call were rejected.
+confirm-simplify-07,simplification_or_evaluation,"For h(u, v) = u**2 - 3*u*v + 2*v**2, calculate h(-1, 4) exactly.",exact_number,"""45""","from sympy import symbols
+
+u, v = symbols(""u v"")
+h = u**2 - 3*u*v + 2*v**2
+result = h.subs({u: -1, v: 4})
+print(""ANSWER:"", result)","from sympy import symbols
+
+u, v = symbols(""u v"")
+h = u**2 - 3*u*v + 2*v**2
+result = h.subs({u: -1, v: 4})
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: 45
+",observable,45,,45,True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-simplify-08,simplification_or_evaluation,Expand and simplify (x - 2*y)**2 + 4*x*y for symbolic x and y.,symbolic_expression,"""x**2 + 4*y**2""","from sympy import expand, symbols
+
+x, y = symbols(""x y"")
+result = expand((x - 2*y)**2 + 4*x*y)
+print(""ANSWER:"", result)","from sympy import expand, symbols
+
+x, y = symbols(""x y"")
+result = expand((x - 2*y)**2 + 4*x*y)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: x**2 + 4*y**2
+",observable,x**2 + 4*y**2,,x**2 + 4*y**2,True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-simplify-09,simplification_or_evaluation,Evaluate the finite geometric sum 1 + 3 + 3**2 + 3**3 + 3**4 + 3**5 exactly.,exact_number,"""364""","from sympy import symbols
+
+x = symbols(""x"")
+result = sum(3**i for i in range(6))
+print(""ANSWER:"", result)","from sympy import symbols
+
+x = symbols(""x"")
+result = sum(3**i for i in range(6))
+print(""ANSWER:"", result)",accepted:raw_python,passed,failed,not_reached,,not_reached,,,,False,policy_rejection,True,False,policy_failure,The non-allowlisted sum call and generator expression were rejected.
+confirm-simplify-10,simplification_or_evaluation,Real p and q satisfy p + q = -3 and p*q = -10. Determine p**3 + q**3.,exact_number,"""-117""","from sympy import Eq, S, solveset, symbols
+
+p, q = symbols(""p q"", real=True)
+result = solveset(Eq(p**3 + q**3, -10), (p, q), domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, symbols
+
+p, q = symbols(""p q"", real=True)
+result = solveset(Eq(p**3 + q**3, -10), (p, q), domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,nonzero_exit,,not_reached,,,,False,execution_error:nonzero_exit,True,False,execution_failure,solveset received a tuple instead of one symbol and raised before output.
+confirm-word-01,proportions_and_word_problems,"A recipe uses exactly 3/4 cup of oats for 5 portions. At the same rate, how many cups are required for 14 portions?",exact_number,"""21/10""","from sympy import Rational, symbols
+
+n = symbols(""n"", nonnegative=True)
+result = Rational(3, 4)*14
+print(""ANSWER:"", result)","from sympy import Rational, symbols
+
+n = symbols(""n"", nonnegative=True)
+result = Rational(3, 4)*14
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: 21/2
+",observable,21/2,incorrect_answer,21/2,False,scoring_error:incorrect_answer,True,False,mathematically_wrong_answer,The program multiplied by 14 without dividing the recipe quantity by 5 portions.
+confirm-word-02,proportions_and_word_problems,A machine makes 84 parts in exactly 3.5 hours at a constant rate. How many parts does it make in exactly 8.25 hours?,exact_number,"""198""","from sympy import Eq, Rational, symbols, solve
+
+h = symbols(""h"", nonnegative=True)
+n = 84
+rate = 42
+result = solve(Eq(n*(h/3.5), 8.25), h)[0]
+print(""ANSWER:"", result)","from sympy import Eq, Rational, symbols, solve
+
+h = symbols(""h"", nonnegative=True)
+n = 84
+rate = 42
+result = solve(Eq(n*(h/3.5), 8.25), h)[0]
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: 0.343750000000000
+",observable,0.343750000000000,incorrect_answer,0.343750000000000,False,scoring_error:incorrect_answer,True,False,mathematically_wrong_answer,The rate equation and resulting 0.34375 do not answer the parts question.
+confirm-word-03,proportions_and_word_problems,A 12-liter drink is 25% juice. How many liters of pure juice must be added so the final mixture is 40% juice?,exact_number,"""3""","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq(25 + (40 - 25)*x, 12), x)[0]
+print(""ANSWER:"", result)","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", real=True)
+result = solve(Eq(25 + (40 - 25)*x, 12), x)[0]
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: -13/15
+",observable,-13/15,incorrect_answer,-13/15,False,scoring_error:incorrect_answer,True,False,mathematically_wrong_answer,The mixture equation is incorrect and produces -13/15 instead of 3.
+confirm-word-04,proportions_and_word_problems,Four consecutive positive integers sum to 150. Report the smallest and largest integers.,variable_mapping,"{""largest"": ""39"", ""smallest"": ""36""}","from sympy import Eq, symbols, solve
+
+x = symbols(""x"", positive=True)
+total = sum(x + offset for offset in range(4))
+result = solve(Eq(total, 150), x)[0]
+print(""ANSWER:"", result)","from sympy import Eq, symbols, solve
+
+x = symbols(""x"", positive=True)
+total = sum(x + offset for offset in range(4))
+result = solve(Eq(total, 150), x)[0]
+print(""ANSWER:"", result)",accepted:raw_python,passed,failed,not_reached,,not_reached,,,,False,policy_rejection,True,False,policy_failure,The non-allowlisted sum call and generator expression were rejected.
+confirm-word-05,proportions_and_word_problems,"After an exact 15% discount, an item costs $68. What was its original price in dollars?",exact_number,"""80""","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", positive=True)
+result = solve(Eq(68 - (15/100)*x, x), x)[0]
+print(""ANSWER:"", result)","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", positive=True)
+result = solve(Eq(68 - (15/100)*x, x), x)[0]
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: 59.1304347826087
+",observable,59.1304347826087,incorrect_answer,59.1304347826087,False,scoring_error:incorrect_answer,True,False,mathematically_wrong_answer,The discount equation is incorrect and produces 59.1304 instead of 80.
+confirm-word-06,proportions_and_word_problems,"In a fixed pair of gears, the first gear makes 18 turns while the second makes 30. If the second makes 55 turns under the same ratio, how many turns does the first make?",exact_number,"""33""","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", nonnegative=True)
+result = solve(Eq(18 + (18/x), 55), x)[0]
+print(""ANSWER:"", result)","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", nonnegative=True)
+result = solve(Eq(18 + (18/x), 55), x)[0]
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: 18/37
+",observable,18/37,incorrect_answer,18/37,False,scoring_error:incorrect_answer,True,False,mathematically_wrong_answer,The gear-ratio equation is incorrect and produces 18/37 instead of 33.
+confirm-word-07,proportions_and_word_problems,"Compute the exact simple interest on $1200 at 3.5% per year for 4 years, with no compounding.",exact_number,"""168""","from sympy import FiniteDuration, symbols
+
+amount = 1200
+rate = 0.035
+time = symbols(""t"", nonnegative=True)
+result = amount + rate*amount*FiniteDuration(time, years=4)
+print(""ANSWER:"", result)","from sympy import FiniteDuration, symbols
+
+amount = 1200
+rate = 0.035
+time = symbols(""t"", nonnegative=True)
+result = amount + rate*amount*FiniteDuration(time, years=4)
+print(""ANSWER:"", result)",accepted:raw_python,passed,failed,not_reached,,not_reached,,,,False,policy_rejection,True,False,policy_failure,The non-allowlisted and nonexistent FiniteDuration helper was rejected.
+confirm-word-08,proportions_and_word_problems,A theater sold 47 tickets: adult tickets cost $13 and child tickets cost $8. Total revenue was $506. How many adult and child tickets were sold?,variable_mapping,"{""adults"": ""26"", ""children"": ""21""}","from sympy import Eq, symbols, solve
+
+t = symbols(""t"", nonnegative=True)
+total_revenue = 506
+result = solve(Eq(13*t + (8)*(47 - t), total_revenue), t)[0]
+print(""ANSWER:"", result)","from sympy import Eq, symbols, solve
+
+t = symbols(""t"", nonnegative=True)
+total_revenue = 506
+result = solve(Eq(13*t + (8)*(47 - t), total_revenue), t)[0]
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: 26
+",observable,26,malformed_answer,,False,scoring_error:malformed_answer,True,False,mathematically_wrong_answer,Only the adult count was printed; the requested child count is missing.
+confirm-word-09,proportions_and_word_problems,"Mira is 4 years older than twice Noah's age, and their ages sum to 34 years. Find both ages.",variable_mapping,"{""Mira"": ""24"", ""Noah"": ""10""}","from sympy import Eq, symbols, solve
+
+x = symbols(""x"", positive=True)
+result = solve(Eq(4 + (2)*x, 34), x)[0]
+print(""ANSWER:"", result)","from sympy import Eq, symbols, solve
+
+x = symbols(""x"", positive=True)
+result = solve(Eq(4 + (2)*x, 34), x)[0]
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: 15
+",observable,15,malformed_answer,,False,scoring_error:malformed_answer,True,False,mathematically_wrong_answer,The age-sum relationship was modeled incorrectly and the output is neither age.
+confirm-word-10,proportions_and_word_problems,A population of 640 increases once by exactly 12.5%. What is the resulting population?,exact_number,"""720""","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", nonnegative=True)
+result = solve(Eq(640 + (640)*(Rational(1, 10))*12.5, x), x)[0]
+print(""ANSWER:"", result)","from sympy import Eq, Rational, symbols, solve
+
+x = symbols(""x"", nonnegative=True)
+result = solve(Eq(640 + (640)*(Rational(1, 10))*12.5, x), x)[0]
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: 1440.00000000000
+",observable,1440.00000000000,incorrect_answer,1440.00000000000,False,scoring_error:incorrect_answer,True,False,mathematically_wrong_answer,The percentage calculation is incorrect and produces 1440 instead of 720.
+confirm-absolute-01,absolute_value_equations,Find all real x satisfying Abs(x + 7) + 3 = 14.,finite_set,"[""-18"", ""4""]","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(x + (7)) + (3), 14), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(x + (7)) + (3), 14), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-18, 4}
+",observable,"{-18, 4}",,"{-18, 4}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-absolute-02,absolute_value_equations,"Over the reals, solve 4*Abs(3*x - 2) = 20.",finite_set,"[""-1"", ""7/3""]","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(4*Abs(3*x - (2)), 20), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(4*Abs(3*x - (2)), 20), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-1, 7/3}
+",observable,"{-1, 7/3}",,"{-1, 7/3}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-absolute-03,absolute_value_equations,Determine every real solution of Abs(2*x + 1) = Abs(x - 5).,finite_set,"[""-6"", ""4/3""]","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(2*x + (1)), Abs(x - 5)), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(2*x + (1)), Abs(x - 5)), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-6, 4/3}
+",observable,"{-6, 4/3}",,"{-6, 4/3}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-absolute-04,absolute_value_equations,Find the real solution set of Abs(x - 2) + Abs(x + 2) = -1.,finite_set,[],"from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(x - 2) + Abs(x + 2), -1), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(x - 2) + Abs(x + 2), -1), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: EmptySet
+",observable,EmptySet,,EmptySet,True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-absolute-05,absolute_value_equations,Solve Abs(x/2 - 3) = sqrt(3) over the reals with an exact radical answer.,finite_set,"[""6 - 2*sqrt(3)"", ""6 + 2*sqrt(3)""]","from sympy import Abs, Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(x/2 - 3), sqrt(3)), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Abs, Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(x/2 - 3), sqrt(3)), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {6 - 2*sqrt(3), 2*sqrt(3) + 6}
+",observable,"{6 - 2*sqrt(3), 2*sqrt(3) + 6}",,"{6 - 2*sqrt(3), 2*sqrt(3) + 6}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-absolute-06,absolute_value_equations,Find all real x such that Abs(x - 1) = 2*x + 3.,finite_set,"[""-2/3""]","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(x - (1)), 2*x + (3)), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(x - (1)), 2*x + (3)), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-2/3}
+",observable,{-2/3},,{-2/3},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-absolute-07,absolute_value_equations,Determine every real solution of Abs(Abs(x) - 3) = 2.,finite_set,"[""-5"", ""-1"", ""1"", ""5""]","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(Abs(x) - 3), 2), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(Abs(x) - 3), 2), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-5, -1, 1, 5}
+",observable,"{-5, -1, 1, 5}",,"{-5, -1, 1, 5}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-absolute-08,absolute_value_equations,"Over the reals, solve 2*Abs(3 - x) = 9 exactly.",finite_set,"[""-3/2"", ""15/2""]","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(2*Abs(3 - x), 9), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(2*Abs(3 - x), 9), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-3/2, 15/2}
+",observable,"{-3/2, 15/2}",,"{-3/2, 15/2}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-absolute-09,absolute_value_equations,Find all real x satisfying Abs(x**2 - 4) = 0.,finite_set,"[""-2"", ""2""]","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(x**2 - 4), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(x**2 - 4), 0), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-2, 2}
+",observable,"{-2, 2}",,"{-2, 2}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-absolute-10,absolute_value_equations,Solve Abs(2*x - 3) = Abs(x + 4) over the reals.,finite_set,"[""-1/3"", ""7""]","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(2*x - (3)), Abs(x + (4))), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Abs, Eq, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(Abs(2*x - (3)), Abs(x + (4))), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {-1/3, 7}
+",observable,"{-1/3, 7}",,"{-1/3, 7}",True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-exponent-01,exponents_and_radicals,Find the real x for which 4**(x - 1) = 8**(2 - x).,finite_set,"[""8/5""]","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(4**(x - 1), 16), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(4**(x - 1), 16), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {3}
+",observable,{3},incorrect_answer,{3},False,scoring_error:incorrect_answer,True,False,mathematically_wrong_answer,"The right side was replaced by 16, producing 3 instead of 8/5."
+confirm-exponent-02,exponents_and_radicals,Solve 27**(x + 1) = 9**(2*x - 1) over the reals.,finite_set,"[""5""]","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(27**(x + 1), 9**(2*x - 1)), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(27**(x + 1), 9**(2*x - 1)), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {5}
+",observable,{5},,{5},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-exponent-03,exponents_and_radicals,Determine the real solution of 2**(x + 2) = 8**(x - 1).,finite_set,"[""5/2""]","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(2**(x + 2), 8**(x - 1)), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(2**(x + 2), 8**(x - 1)), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {5/2}
+",observable,{5/2},,{5/2},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-exponent-04,exponents_and_radicals,"Solve sqrt(3*x + 4) = 5 over the reals, where sqrt is the principal nonnegative root.",finite_set,"[""7""]","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(sqrt(3*x + (4)), 5), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(sqrt(3*x + (4)), 5), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {7}
+",observable,{7},,{7},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-exponent-05,exponents_and_radicals,"Find every real x satisfying sqrt(x + 10) = x - 2, with sqrt interpreted as principal.",finite_set,"[""6""]","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(sqrt(x + (10)), x - 2), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(sqrt(x + (10)), x - 2), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {6}
+",observable,{6},,{6},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-exponent-06,exponents_and_radicals,Solve sqrt(2*x + 3) + 1 = x over the reals using the principal square root.,finite_set,"[""2 + sqrt(6)""]","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(sqrt(2*x + (3)), x + 1), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(sqrt(2*x + (3)), x + 1), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {sqrt(2)}
+",observable,{sqrt(2)},incorrect_answer,{sqrt(2)},False,scoring_error:incorrect_answer,True,False,mathematically_wrong_answer,The equation used x + 1 instead of x - 1 and produced sqrt(2).
+confirm-exponent-07,exponents_and_radicals,"Find real x satisfying sqrt(x - 1) = sqrt(9 - x), with both roots principal.",finite_set,"[""5""]","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(sqrt(x - 1), sqrt(9 - x)), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(sqrt(x - 1), sqrt(9 - x)), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {5}
+",observable,{5},,{5},True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.
+confirm-exponent-08,exponents_and_radicals,Solve 2**x = 11 over the reals and report x as a decimal approximation.,approximate_numeric,"""3.4594316186372973""","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(2**x, 11), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(2**x, 11), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: {log(11)/log(2)}
+",observable,{log(11)/log(2)},malformed_answer,,False,scoring_error:malformed_answer,True,True,scorer_false_negative,The exact singleton log(11)/log(2) equals the requested decimal approximation.
+confirm-exponent-09,exponents_and_radicals,"Over the reals, solve sqrt(x + 1) + sqrt(x - 2) = 3 using principal square roots.",finite_set,"[""3""]","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(sqrt(x + (1)), 3) + Eq(sqrt(x - (2)), 3), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, S, solveset, sqrt, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(sqrt(x + (1)), 3) + Eq(sqrt(x - (2)), 3), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,nonzero_exit,,not_reached,,,,False,execution_error:nonzero_exit,True,False,execution_failure,"Two Equality objects were added, raising a TypeError before output."
+confirm-exponent-10,exponents_and_radicals,Find the real solution set of 5**x = -2.,finite_set,[],"from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(5**x, -2), x, domain=S.Reals)
+print(""ANSWER:"", result)","from sympy import Eq, Rational, S, solveset, symbols
+
+x = symbols(""x"", real=True)
+result = solveset(Eq(5**x, -2), x, domain=S.Reals)
+print(""ANSWER:"", result)",accepted:raw_python,passed,passed,ok,"ANSWER: EmptySet
+",observable,EmptySet,,EmptySet,True,correct,True,True,confirmed_correct,Observable answer and generated program confirmed.

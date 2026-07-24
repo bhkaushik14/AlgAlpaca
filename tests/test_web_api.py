@@ -30,8 +30,13 @@ def test_health_capabilities_status_examples_and_evaluation():
     assert len(client.get("/api/examples").json()["examples"]) == 6
     evaluation = client.get("/api/evaluation-summary").json()
     assert evaluation["base"] == {"correct": 17, "total": 100}
-    assert evaluation["adapter"] == {"correct": 39, "total": 100}
-    assert evaluation["adapter_failed"] == 61
+    assert evaluation["original_adapter"] == {"correct": 39, "total": 100}
+    assert evaluation["v2_automated"] == {"correct": 59, "total": 100}
+    assert evaluation["v2_manual"] == {"correct": 71, "total": 100}
+    assert evaluation["original_executable"] == 61
+    assert evaluation["v2_executable"] == 85
+    assert evaluation["scorer_false_negatives"] == 12
+    assert sum(evaluation[key] for key in ("original_only", "v2_only", "both_correct", "both_incorrect")) == 100
 
 
 def test_empty_character_limit_and_extra_fields():
