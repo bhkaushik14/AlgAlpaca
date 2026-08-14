@@ -2,13 +2,17 @@
 
 [![CI](https://github.com/bhkaushik14/AlgAlpaca/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bhkaushik14/AlgAlpaca/actions/workflows/ci.yml)
 
+**[Live Demo](https://algalpaca.pages.dev)** · [GitHub](https://github.com/bhkaushik14/AlgAlpaca) · [Evaluation methodology](evaluation/README.md) · [Model card](MODEL_CARD.md)
+
+This public demo uses real outputs from the evaluated AlgAlpaca model. It does not perform live inference.
+
 AlgAlpaca is a local algebra-to-Python/SymPy research workbench built around a QLoRA adapter for Code Llama 7B. It generates a complete program, applies syntax and AST policy checks, runs accepted code in a restricted local subprocess, and displays the program and result.
 
 ## Demo
 
 ![AlgAlpaca workspace showing an algebra problem, generated SymPy program, and execution result](docs/assets/algalpaca-workspace.png)
 
-*A real local run of the current application. V2 generated and executed a SymPy program for the entered quadratic equation; this is a recorded local demo, not a hosted service.*
+*A real local run of the current application. V2 generated and executed a SymPy program for the entered quadratic equation. The screenshot documents the local inference workflow; the hosted public demo uses recorded evaluated outputs.*
 
 ## Key results
 
