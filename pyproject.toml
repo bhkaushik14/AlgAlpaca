@@ -33,7 +33,7 @@ web = [
 ]
 dev = [
   "pytest>=8,<9",
-  "ruff>=0.9,<1",
+  "ruff==0.15.21",
 ]
 
 [project.scripts]
