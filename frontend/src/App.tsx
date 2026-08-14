@@ -3,7 +3,17 @@ import { api, ApiError } from './api'
 import { Shell } from './components/Shell'
 import { Workbench } from './components/Workbench'
 import { AboutView, DocumentationView, EvaluationView, ExamplesView, LoadingView } from './components/Views'
-import type { Capabilities, DocumentationItem, EvaluationSummary, ExampleItem, ModelStatus, RouteId, RunResult, Theme } from './types'
+import {
+  isPublicDemoMode,
+  publicDemoCapabilities,
+  publicDemoDocuments,
+  publicDemoEvaluation,
+  publicDemoExamples,
+  publicDemoModelStatus,
+  publicDemoResultFor,
+  PUBLIC_DEMO_UNSUPPORTED_MESSAGE,
+} from './publicDemo'
+import type { Capabilities, DisplayResult, DocumentationItem, EvaluationSummary, ExampleItem, ModelStatus, RouteId, Theme } from './types'
 
 const routes: RouteId[] = ['workbench', 'examples', 'evaluation', 'documentation', 'about']
 const alreadyRunningMessage = 'Another local request is running; wait for it to finish.'
@@ -20,16 +30,17 @@ function initialTheme(): Theme {
 }
 
 export default function App() {
+  const publicDemo = isPublicDemoMode()
   const [route, setRoute] = useState<RouteId>(routeFromPath)
   const [theme, setTheme] = useState<Theme>(initialTheme)
-  const [capabilities, setCapabilities] = useState<Capabilities | null>(null)
-  const [modelStatus, setModelStatus] = useState<ModelStatus | null>(null)
-  const [examples, setExamples] = useState<ExampleItem[]>([])
-  const [evaluation, setEvaluation] = useState<EvaluationSummary | null>(null)
-  const [documents, setDocuments] = useState<DocumentationItem[]>([])
+  const [capabilities, setCapabilities] = useState<Capabilities | null>(() => publicDemo ? publicDemoCapabilities : null)
+  const [modelStatus, setModelStatus] = useState<ModelStatus | null>(() => publicDemo ? publicDemoModelStatus : null)
+  const [examples, setExamples] = useState<ExampleItem[]>(() => publicDemo ? publicDemoExamples : [])
+  const [evaluation, setEvaluation] = useState<EvaluationSummary | null>(() => publicDemo ? publicDemoEvaluation : null)
+  const [documents, setDocuments] = useState<DocumentationItem[]>(() => publicDemo ? publicDemoDocuments : [])
   const [problem, setProblem] = useState('')
   const [bootError, setBootError] = useState('')
-  const [result, setResult] = useState<RunResult | null>(null)
+  const [result, setResult] = useState<DisplayResult | null>(null)
   const [running, setRunning] = useState(false)
   const [runError, setRunError] = useState('')
   const [runNotice, setRunNotice] = useState('')
@@ -37,6 +48,7 @@ export default function App() {
   const runActive = useRef(false)
 
   const refreshRuntime = async () => {
+    if (publicDemo) return
     const [nextCapabilities, nextStatus] = await Promise.all([api.capabilities(), api.modelStatus()])
     setCapabilities(nextCapabilities)
     setModelStatus(nextStatus)
@@ -45,11 +57,20 @@ export default function App() {
   const submitProblem = async (submittedProblem: string) => {
     if (runActive.current) return
     runActive.current = true
-    setRunning(true)
     setResult(null)
     setRunError('')
     setRunNotice('')
     setInputError('')
+
+    if (publicDemo) {
+      const recordedResult = publicDemoResultFor(submittedProblem)
+      if (recordedResult) setResult(recordedResult)
+      else setRunNotice(PUBLIC_DEMO_UNSUPPORTED_MESSAGE)
+      runActive.current = false
+      return
+    }
+
+    setRunning(true)
     try {
       const checked = await api.validate(submittedProblem)
       if (!checked.valid) {
@@ -97,6 +118,7 @@ export default function App() {
   }, [])
 
   useEffect(() => {
+    if (publicDemo) return
     void Promise.all([api.capabilities(), api.modelStatus(), api.examples(), api.evaluation(), api.documentation()])
       .then(([nextCapabilities, nextStatus, nextExamples, nextEvaluation, nextDocuments]) => {
         setCapabilities(nextCapabilities)
@@ -106,7 +128,7 @@ export default function App() {
         setDocuments(nextDocuments)
       })
       .catch(() => setBootError('The local API is unavailable. Start the FastAPI service on 127.0.0.1.'))
-  }, [])
+  }, [publicDemo])
 
   const navigate = (next: RouteId) => {
     if (next !== route) window.history.pushState({}, '', next === 'workbench' ? '/' : `/${next}`)
@@ -139,15 +161,16 @@ export default function App() {
       setInputError={setInputError}
       submitProblem={submitProblem}
       resetRun={resetRun}
+      publicDemo={publicDemo}
     />
   )
-  else if (route === 'examples') view = <ExamplesView examples={examples} onUseExample={useExample} />
+  else if (route === 'examples') view = <ExamplesView examples={examples} onUseExample={useExample} publicDemo={publicDemo} />
   else if (route === 'evaluation') view = <EvaluationView summary={evaluation} />
   else if (route === 'documentation') view = <DocumentationView documents={documents} />
   else view = <AboutView navigate={navigate} />
 
   return (
-    <Shell route={route} navigate={navigate} theme={theme} toggleTheme={() => setTheme(theme === 'light' ? 'dark' : 'light')} modelStatus={modelStatus} running={running}>
+    <Shell route={route} navigate={navigate} theme={theme} toggleTheme={() => setTheme(theme === 'light' ? 'dark' : 'light')} modelStatus={modelStatus} running={running} publicDemo={publicDemo}>
       <a className="skip-link" href="#main-content">Skip to main content</a>
       {bootError && <div className="error-banner boot-error" role="alert">{bootError}</div>}
       {view}

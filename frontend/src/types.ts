@@ -37,6 +37,20 @@ export interface ExampleItem {
   problem: string
 }
 
+export interface PublicDemoCase extends ExampleItem {
+  raw_response: string
+  extracted_code: string
+  extraction_status: string
+  syntax_status: string
+  policy_status: string
+  execution_status: string
+  stdout: string
+  observable_status: string
+  parsed_answer: string
+  automated_correct: boolean
+  failure_reason: string
+}
+
 export type StageState = 'pending' | 'active' | 'passed' | 'warning' | 'failed' | 'not_reached'
 export interface PipelineStage { id: string; label: string; state: StageState; detail: string }
 
@@ -90,6 +104,15 @@ export interface RunResult {
     prompt_token_count: number
     completion_token_count: number
   }
+}
+
+export type DisplayResult = Pick<RunResult, 'status'> & {
+  program: Pick<RunResult['program'], 'code' | 'language' | 'uses_sympy'>
+  output: Pick<
+    RunResult['output'],
+    'stdout' | 'display_value' | 'display_kind' | 'error_summary' | 'execution_status' | 'timed_out'
+  >
+  details: Pick<RunResult['details'], 'syntax_result'>
 }
 
 export interface EvaluationSummary {

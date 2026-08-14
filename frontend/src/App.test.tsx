@@ -63,6 +63,7 @@ function installFetch(runResult: RunResult = completed) {
 }
 
 beforeEach(() => {
+  vi.stubEnv('VITE_PUBLIC_DEMO', 'false')
   window.history.replaceState({}, '', '/')
   window.localStorage.clear()
   installFetch()
@@ -154,6 +155,14 @@ describe('Workspace naming and repository link', () => {
 })
 
 describe('simplified Workbench', () => {
+
+  it('keeps the live validation and inference request path when public-demo mode is disabled', async () => {
+    render(<App />)
+    await runProblem()
+    const requestedUrls = vi.mocked(fetch).mock.calls.map(([url]) => String(url))
+    expect(requestedUrls.some((url) => url.includes('/api/validate'))).toBe(true)
+    expect(requestedUrls.some((url) => url.includes('/api/run'))).toBe(true)
+  })
   it('renders exactly two primary cards with the required controls', async () => {
     render(<App />)
     const textarea = await screen.findByLabelText('Problem statement')
@@ -421,5 +430,53 @@ describe('verification and request recovery', () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('The local request could not be completed.')
     expect(screen.getByRole('button', { name: 'Generate and run' })).toBeEnabled()
     expect(input).toHaveValue('Solve x=3.')
+  })
+})
+
+describe('public demo mode', () => {
+  beforeEach(() => {
+    vi.stubEnv('VITE_PUBLIC_DEMO', 'true')
+  })
+
+  it('loads static data and shows the exact demo notice without backend requests', async () => {
+    render(<App />)
+    expect(await screen.findByText('This public demo uses real outputs from the evaluated AlgAlpaca model')).toBeInTheDocument()
+    expect(screen.getByText('Try an evaluated example to view AlgAlpaca’s recorded Python output.')).toBeInTheDocument()
+    expect(screen.getByRole('status', { name: 'Demo status: Recorded outputs' })).toHaveTextContent('Recorded demo')
+    expect(screen.getByRole('button', { name: 'View recorded result' })).toBeDisabled()
+    expect(screen.getByText('Recorded code will appear here.')).toBeInTheDocument()
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
+  it('uses an authentic selected evaluation result without inference or execution requests', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    const input = await screen.findByLabelText('Problem statement')
+    await user.selectOptions(screen.getByLabelText('Load an example problem'), 'confirm-linear-01')
+    expect(input).toHaveValue('Determine every real x satisfying 3*(2*x - 5) + 4 = 5*x + 12.')
+    await user.click(screen.getByRole('button', { name: 'View recorded result' }))
+    expect(await screen.findByLabelText('Program result')).toHaveTextContent('{23}')
+    expect(screen.getByText('SymPy')).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Copy generated program' }))
+    expect(await navigator.clipboard.readText()).toBe(
+      'from sympy import Eq, S, solveset, symbols\n\nx = symbols("x", real=True)\nequation = Eq(3*(2*x - (5)) + (4), 5*x + (12), evaluate=False)\nresult = solveset(equation, x, domain=S.Reals)\nprint("ANSWER:", result)',
+    )
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
+  it('matches a user-entered retained problem while rejecting arbitrary input honestly', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    const input = await screen.findByLabelText('Problem statement')
+    await user.type(input, '  Determine every real x satisfying 3*(2*x - 5) + 4 = 5*x + 12.  ')
+    await user.click(screen.getByRole('button', { name: 'View recorded result' }))
+    expect(await screen.findByLabelText('Program result')).toHaveTextContent('{23}')
+
+    await user.click(screen.getByRole('button', { name: 'Clear' }))
+    await user.type(input, 'Solve my new equation.')
+    await user.click(screen.getByRole('button', { name: 'View recorded result' }))
+    expect(await screen.findByText('This public demo includes recorded results for evaluated examples. Choose one from “Try an example” to continue.')).toBeInTheDocument()
+    expect(screen.queryByLabelText('Program result')).not.toBeInTheDocument()
+    expect(fetch).not.toHaveBeenCalled()
   })
 })

@@ -1,7 +1,8 @@
-import { AlertTriangle, ChevronDown, Eraser, Play, RotateCcw } from 'lucide-react'
+import { AlertTriangle, ChevronDown, Eraser, Info, Play, RotateCcw } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { api } from '../api'
-import type { Capabilities, ExampleItem, ModelStatus, RunResult } from '../types'
+import { PUBLIC_DEMO_NOTICE } from '../publicDemo'
+import type { Capabilities, DisplayResult, ExampleItem, ModelStatus } from '../types'
 import { CodePanel } from './CodePanel'
 
 interface Props {
@@ -11,7 +12,7 @@ interface Props {
   problem: string
   setProblem: (value: string) => void
   refreshRuntime: () => Promise<void>
-  result: RunResult | null
+  result: DisplayResult | null
   running: boolean
   error: string
   notice: string
@@ -19,6 +20,7 @@ interface Props {
   setInputError: (value: string) => void
   submitProblem: (problem: string) => Promise<void>
   resetRun: () => void
+  publicDemo: boolean
 }
 
 const reasonLabels: Record<string, string> = {
@@ -29,12 +31,12 @@ const reasonLabels: Record<string, string> = {
   adapter_weight_size_mismatch: 'Adapter weight size did not match',
   adapter_config_size_mismatch: 'Adapter configuration size did not match',
   adapter_weight_hash_mismatch: 'Adapter weight hash did not match',
-  adapter_config_hash_mismatch: 'Adapter configuration hash did not match',
+  adapter_config_hash_mismatch: 'Adapter config hash did not match',
   base_revision_unavailable: 'Required base-model revision is unavailable',
   model_load_failed: 'Model loading failed',
 }
 
-export function Workbench({ capabilities, modelStatus, examples, problem, setProblem, refreshRuntime, result, running, error, notice, inputError, setInputError, submitProblem, resetRun }: Props) {
+export function Workbench({ capabilities, modelStatus, examples, problem, setProblem, refreshRuntime, result, running, error, notice, inputError, setInputError, submitProblem, resetRun, publicDemo }: Props) {
   const [verifying, setVerifying] = useState(false)
   const [verificationRetryError, setVerificationRetryError] = useState('')
   const textarea = useRef<HTMLTextAreaElement>(null)
@@ -42,10 +44,11 @@ export function Workbench({ capabilities, modelStatus, examples, problem, setPro
   const verificationReady = modelStatus.verification_state === 'ready'
   const verificationNeedsAttention = !verificationReady || modelStatus.load_state === 'load_failed'
   const unavailable = !verificationReady || modelStatus.load_state === 'loading'
-  const canRun = Boolean(problem.trim()) && !tooLong && !inputError && !unavailable && capabilities.generation_enabled && !modelStatus.request_busy && !running && !verifying
+  const canRun = Boolean(problem.trim()) && !tooLong && !inputError && !unavailable && (publicDemo || capabilities.generation_enabled) && !modelStatus.request_busy && !running && !verifying
+  const actionLabel = publicDemo ? 'View recorded result' : 'Generate and run'
 
   const validate = async () => {
-    if (!problem.trim() || tooLong) return
+    if (publicDemo || !problem.trim() || tooLong) return
     try {
       const response = await api.validate(problem)
       setInputError(response.valid ? '' : 'This problem is too long. Shorten it before generating.')
@@ -107,7 +110,7 @@ export function Workbench({ capabilities, modelStatus, examples, problem, setPro
     <div className="workbench-view">
       <header className="page-intro compact-intro">
         <h1>Workspace</h1>
-        <p>Enter an algebra problem and generate a Python program.</p>
+        <p>{publicDemo ? 'Try an evaluated example to view AlgAlpaca’s recorded Python output.' : 'Enter an algebra problem and generate a Python program.'}</p>
       </header>
 
       <div className="workbench-grid">
@@ -115,7 +118,7 @@ export function Workbench({ capabilities, modelStatus, examples, problem, setPro
           <div className="card-heading">
             <div>
               <h2 id="problem-heading">Algebra Problem</h2>
-              <p id="problem-help">Enter a problem in natural language or as an equation.</p>
+              <p id="problem-help">{publicDemo ? 'Choose a retained evaluation example or enter its problem statement.' : 'Enter a problem in natural language or as an equation.'}</p>
             </div>
           </div>
 
@@ -130,7 +133,7 @@ export function Workbench({ capabilities, modelStatus, examples, problem, setPro
             maxLength={capabilities.max_problem_characters + 1}
             aria-invalid={tooLong || Boolean(inputError)}
             aria-describedby="problem-help problem-error"
-            placeholder="Example: Solve over the real numbers: 2x + 7 = 19."
+            placeholder={publicDemo ? 'Choose a recorded example to begin.' : 'Example: Solve over the real numbers: 2x + 7 = 19.'}
             disabled={running}
           />
           {problem && <div className={tooLong ? 'character-count error-text' : 'character-count'}>{problem.length} / {capabilities.max_problem_characters}</div>}
@@ -141,14 +144,14 @@ export function Workbench({ capabilities, modelStatus, examples, problem, setPro
             <label className="select-label">
               <span className="sr-only">Load an example</span>
               <select defaultValue="" onChange={(event) => chooseExample(event.target.value)} aria-label="Load an example problem" disabled={running}>
-                <option value="" disabled>Choose an example…</option>
+                <option value="" disabled>{publicDemo ? 'Try an example…' : 'Choose an example…'}</option>
                 {examples.map((example) => <option key={example.id} value={example.id}>{example.category}: {example.title}</option>)}
               </select>
               <ChevronDown aria-hidden="true" />
             </label>
           </div>
 
-          {verificationNeedsAttention && (
+          {!publicDemo && verificationNeedsAttention && (
             <div className="verification-recovery" role="alert">
               <AlertTriangle aria-hidden="true" />
               <div>
@@ -164,17 +167,19 @@ export function Workbench({ capabilities, modelStatus, examples, problem, setPro
             </div>
           )}
 
-          <p className="safety-note"><AlertTriangle aria-hidden="true" />Generated code may be incorrect and runs in a restricted local sandbox.</p>
-          <button className="primary-action" onClick={run} disabled={!canRun} aria-label={running ? 'Generating' : 'Generate and run'} aria-describedby={error || notice ? 'run-message' : undefined}>
+          {publicDemo
+            ? <p className="safety-note public-demo-notice"><Info aria-hidden="true" />{PUBLIC_DEMO_NOTICE}</p>
+            : <p className="safety-note"><AlertTriangle aria-hidden="true" />Generated code may be incorrect and runs in a restricted local sandbox.</p>}
+          <button className="primary-action" onClick={run} disabled={!canRun} aria-label={running ? 'Generating' : actionLabel} aria-describedby={error || notice ? 'run-message' : undefined}>
             {running ? <RotateCcw className="spin" aria-hidden="true" /> : <Play aria-hidden="true" />}
-            {running ? 'Generating…' : 'Generate and run'}
+            {running ? 'Generating…' : actionLabel}
             <kbd>⌘/Ctrl ↵</kbd>
           </button>
           {error && <div className="error-banner action-error" id="run-message" role="alert"><AlertTriangle aria-hidden="true" /><span>{error}</span></div>}
           {notice && <div className="request-notice" id="run-message" role="status"><span>{notice}</span></div>}
         </section>
 
-        <CodePanel result={result} running={running} error={error} />
+        <CodePanel result={result} running={running} error={error} publicDemo={publicDemo} />
       </div>
     </div>
   )

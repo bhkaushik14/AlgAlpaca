@@ -1,15 +1,16 @@
 import { Check, Clipboard, Code2 } from 'lucide-react'
 import { Highlight, themes } from 'prism-react-renderer'
 import { useState } from 'react'
-import type { RunResult } from '../types'
+import type { DisplayResult } from '../types'
 
 interface Props {
-  result: RunResult | null
+  result: DisplayResult | null
   running: boolean
   error: string
+  publicDemo?: boolean
 }
 
-function resultState(result: RunResult | null, running: boolean, error: string) {
+function resultState(result: DisplayResult | null, running: boolean, error: string) {
   if (running) return { label: 'Generating', detail: 'The local request is in progress.' }
   if (error) return { label: 'Failed', detail: '' }
   if (!result) return { label: 'Ready', detail: '' }
@@ -20,7 +21,7 @@ function resultState(result: RunResult | null, running: boolean, error: string) 
   return { label: 'Completed', detail: '' }
 }
 
-function outputText(result: RunResult) {
+function outputText(result: DisplayResult) {
   if (result.status === 'blocked') return 'The program did not run because it was blocked by the safety policy.'
   if (result.output.timed_out) return 'The program timed out.'
   if (result.details.syntax_result === 'failed') return 'The generated program contains invalid Python syntax.'
@@ -29,7 +30,7 @@ function outputText(result: RunResult) {
   return 'The program produced no output.'
 }
 
-export function CodePanel({ result, running, error }: Props) {
+export function CodePanel({ result, running, error, publicDemo = false }: Props) {
   const [copied, setCopied] = useState(false)
   const code = result?.program.code ?? ''
   const state = resultState(result, running, error)
@@ -79,8 +80,8 @@ export function CodePanel({ result, running, error }: Props) {
         ) : (
           <div className="code-empty">
             <Code2 aria-hidden="true" />
-            <strong>Generated code will appear here.</strong>
-            <span>Run an algebra problem to view the Python program.</span>
+            <strong>{publicDemo ? 'Recorded code will appear here.' : 'Generated code will appear here.'}</strong>
+            <span>{publicDemo ? 'Try an evaluated example to view its Python program.' : 'Run an algebra problem to view the Python program.'}</span>
           </div>
         )}
       </div>

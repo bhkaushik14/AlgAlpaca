@@ -28,13 +28,16 @@ interface Props {
   toggleTheme: () => void
   modelStatus: ModelStatus | null
   running: boolean
+  publicDemo: boolean
   children: ReactNode
 }
 
-export function Shell({ route, navigate, theme, toggleTheme, modelStatus, running, children }: Props) {
+export function Shell({ route, navigate, theme, toggleTheme, modelStatus, running, publicDemo, children }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const state = modelStatus?.state ?? 'not_loaded'
-  const stateLabel = running
+  const stateLabel = publicDemo
+    ? 'Recorded demo'
+    : running
     ? 'Generating'
     : !modelStatus || modelStatus.verification_state === 'verifying'
     ? 'Checking adapter'
@@ -63,11 +66,11 @@ export function Shell({ route, navigate, theme, toggleTheme, modelStatus, runnin
           <span className="alpha-logo" aria-hidden="true">α</span>
           <span className="brand-copy">
             <strong>AlgAlpaca</strong>
-            <small>Local algebra-to-Python workbench</small>
+            <small>{publicDemo ? 'Algebra-to-Python workbench' : 'Local algebra-to-Python workbench'}</small>
           </span>
         </button>
         <div className="topbar-actions">
-          <span className={`model-chip model-${state}`} aria-label={`Adapter status: ${stateLabel}`} role="status">
+          <span className={`model-chip model-${state}`} aria-label={publicDemo ? 'Demo status: Recorded outputs' : `Adapter status: ${stateLabel}`} role="status">
             <span className="status-dot" aria-hidden="true" />
             <span className="model-chip-state">{stateLabel}</span>
           </span>

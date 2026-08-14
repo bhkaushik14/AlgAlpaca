@@ -1,10 +1,10 @@
 import { ArrowRight, BookOpen, ExternalLink, FlaskConical, Layers3, ShieldCheck } from 'lucide-react'
 import type { DocumentationItem, EvaluationSummary, ExampleItem, RouteId } from '../types'
 
-export function ExamplesView({ examples, onUseExample }: { examples: ExampleItem[]; onUseExample: (problem: string) => void }) {
+export function ExamplesView({ examples, onUseExample, publicDemo }: { examples: ExampleItem[]; onUseExample: (problem: string) => void; publicDemo: boolean }) {
   return (
     <div className="standard-view">
-      <header className="page-intro"><h1>Examples</h1><p>Choose a problem to open in the workspace.</p></header>
+      <header className="page-intro"><h1>Examples</h1><p>{publicDemo ? 'Choose an evaluated problem to open in the workspace.' : 'Choose a problem to open in the workspace.'}</p></header>
       <div className="example-grid">
         {examples.map((example) => (
           <article className="card example-card" key={example.id}>
@@ -15,7 +15,7 @@ export function ExamplesView({ examples, onUseExample }: { examples: ExampleItem
           </article>
         ))}
       </div>
-      <p className="route-note">These examples are separate from the project’s evaluation set.</p>
+      <p className="route-note">{publicDemo ? 'These examples are retained cases from the v2 evaluation set.' : 'These examples are separate from the project’s evaluation set.'}</p>
     </div>
   )
 }
