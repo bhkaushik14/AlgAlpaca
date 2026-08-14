@@ -4,6 +4,12 @@
 
 `confirmatory_cases.jsonl` contains the exact 100-case fixture used for all three automated scores. Its SHA-256 is `6a1a6bea174f298192a3b103d979e630d04405d562434eac1b7603c3a57d2a24`. It covers linear, quadratic, rational, absolute-value, exponential, logarithmic, system, inequality, function-evaluation, and expression-simplification tasks.
 
+## Relationship to the second-stage dataset
+
+V2 continuation training used a separate 16,500-example execution-verified dataset spanning 22 algebra categories, split into 13,186 training, 1,677 validation, and 1,637 held-out test examples. The 1,637-example dataset test split is not the frozen 100-case confirmatory benchmark documented here.
+
+The frozen fixture was retained for project-specific confirmatory comparison and was not used for v2 training, routine prompt tuning, or checkpoint tuning. The public artifacts do not establish exhaustive semantic non-overlap between every fixture problem and every generated training example. Results on this custom benchmark do not measure general mathematical ability.
+
 ## Method
 
 The base model, original adapter, and v2 adapter used prompt version `confirmatory-algebra-to-code-v2` with the same frozen Code Llama base revision `22cb240e0292b0b5ab4c17ccd97aa3a2f799cbed`. Each condition received one deterministic greedy generation per case with a 768-new-token limit, seed 42, no sampling, no repair, and no retries.

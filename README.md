@@ -1,12 +1,18 @@
 # AlgAlpaca
 
-## Overview
+[![CI](https://github.com/bhkaushik14/AlgAlpaca/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/bhkaushik14/AlgAlpaca/actions/workflows/ci.yml)
 
-AlgAlpaca is a local application built around a QLoRA adapter for Code Llama. It takes an algebra problem, generates Python/SymPy code, runs the code locally, and displays the generated program and result.
+AlgAlpaca is a local algebra-to-Python/SymPy research workbench built around a QLoRA adapter for Code Llama 7B. It generates a complete program, applies syntax and AST policy checks, runs accepted code in a restricted local subprocess, and displays the program and result.
 
-V2 was produced by continued QLoRA fine-tuning from the original adapter on 16,500 executable, verified algebra-to-SymPy examples spanning 22 categories.
+## Demo
 
-On the frozen 100-problem benchmark, automated correctness improved from 17% for the base model to 39% for the original adapter and 59% for v2. Manual review found 12 additional v2 outputs that were mathematically equivalent but rejected by the scorer, bringing reviewed mathematical correctness to 71%.
+![AlgAlpaca workspace showing an algebra problem, generated SymPy program, and execution result](docs/assets/algalpaca-workspace.png)
+
+*A real local run of the current application. V2 generated and executed a SymPy program for the entered quadratic equation; this is a recorded local demo, not a hosted service.*
+
+## Key results
+
+On the frozen custom 100-problem benchmark, automated correctness progressed from **17/100 → 39/100 → 59/100** for the base model, original adapter, and v2 adapter.
 
 | Condition | Automated correct | Executable output |
 |---|---:|---:|
@@ -14,11 +20,16 @@ On the frozen 100-problem benchmark, automated correctness improved from 17% for
 | Original adapter | 39/100 | 61/100 |
 | V2 adapter | **59/100** | **85/100** |
 
-The 59/100 automated result is the direct comparison with the retained 17/100 and 39/100 scores. The 71/100 figure is reported separately after manual equivalence review.
+The 59/100 result is the primary automated comparison. A separate manual mathematical review accepted 12 additional equivalent v2 outputs rejected by the frozen scorer, producing a reviewed total of 71/100; 71/100 is not the automated benchmark score. Executable output improved from 61/100 for the original adapter to 85/100 for v2.
 
 The adapter is not included in this repository. It must be supplied from an authorized private local copy and used with `codellama/CodeLlama-7b-Instruct-hf` revision `22cb240e0292b0b5ab4c17ccd97aa3a2f799cbed`.
 
-## What it does
+## System
+
+```text
+problem → frozen prompt → local model generation → code extraction
+        → syntax and policy checks → restricted subprocess → displayed result
+```
 
 - Accepts an algebra problem in the browser.
 - Generates a Python/SymPy program with the locally configured adapter.
@@ -26,17 +37,21 @@ The adapter is not included in this repository. It must be supplied from an auth
 - Runs accepted code in a restricted subprocess with time and resource limits.
 - Displays the generated program and result, including concise failure details.
 
-## Interface
+The React workspace communicates with a local FastAPI service. Model loading remains lazy, and the generated-code execution controls are intended for a single-user local application rather than anonymous public traffic. See the detailed [architecture](docs/architecture.md), [evaluation methodology](evaluation/README.md), and [model card](MODEL_CARD.md).
 
-The React interface provides a workspace, examples, evaluation results, documentation, and local model status. FastAPI serves the built frontend and local API. Model loading remains lazy: startup and configuration checks do not load model weights.
+## Training and evaluation scope
 
-## Results
+V2 was produced by continuing QLoRA fine-tuning from the original adapter rather than training a fresh adapter from the base model.
 
-V2 produced 59 automated-correct answers and 85 executable programs. The original adapter produced 39 automated-correct answers and 61 executable programs under the same frozen protocol.
+| Preserved second-stage fact | Value |
+|---|---:|
+| Execution-verified examples | 16,500 across 22 algebra categories |
+| Training split | 13,186 |
+| Validation split | 1,677 |
+| Held-out dataset test split | 1,637 |
+| Final continuation training | 1 epoch, 825 optimizer steps |
 
-Against the original adapter, paired automated outcomes were both correct 28, original only 11, v2 only 31, and both incorrect 30. The [evaluation comparison](evaluation/comparison.md) gives category and failure-stage details.
-
-V2 is still not reliable enough for unsupervised use. After manual review, 14 answers remained mathematically wrong; another 8 failed during execution and 7 were rejected by the execution policy. In six system cases, v2 printed mathematically equivalent ordered tuples that the scorer did not map to named variables. The other four system cases were wrong or failed during execution.
+The 1,637-example held-out dataset split and the frozen 100-problem confirmatory benchmark are different evaluation sets. The custom benchmark does not measure general mathematical ability, and the preserved public artifacts do not establish exhaustive semantic non-overlap between every benchmark problem and every generated training example. The repository also does not contain everything required to reproduce the complete training run from scratch; see [history](docs/history.md) and [limitations](docs/limitations.md).
 
 ## Quick start
 
@@ -65,16 +80,6 @@ PyTorch and CUDA installation is machine-specific; this repository does not repl
 ```
 
 Open `http://127.0.0.1:8000`. The check command validates local configuration without loading or calling the model.
-
-## Architecture
-
-```text
-prompt → model generation → code extraction → policy checks → subprocess execution → result presentation
-```
-
-The application formats the fixed inference prompt, performs one model generation, extracts a candidate program, rejects syntax or policy violations, executes accepted code under subprocess restrictions, and presents the program and bounded output.
-
-The repository contains the application and evaluation artifacts. The selected adapter remains an external local artifact configured through `.algalpaca-adapter-path`. See [architecture](docs/architecture.md).
 
 ## Repository map
 

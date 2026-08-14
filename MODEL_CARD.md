@@ -21,7 +21,7 @@ Controlled local educational and research use for algebra-to-Python/SymPy genera
 
 ## Training record
 
-V2 used a 16,500-example executable, verified algebra-to-SymPy dataset covering 22 categories. The split contained 13,186 training examples, 1,677 validation examples, and 1,637 held-out test examples. Continued training ran for one epoch and 825 optimizer steps. The targets were complete executable programs with observable output.
+V2 used a 16,500-example execution-verified algebra-to-SymPy dataset covering 22 categories. The split contained 13,186 training examples, 1,677 validation examples, and 1,637 held-out test examples. Continued training ran for one epoch and 825 optimizer steps. The targets were complete executable programs with observable output.
 
 The original adapter's surviving record supports 4-bit NF4 QLoRA-style supervised fine-tuning with mixed natural-language and program targets. Saved historical data comprised 82,269 source rows, split into 78,156 training and 4,113 validation rows. No training data is redistributed. Exact original dataset revisions, sampling ratios, the complete command, and some environment details remain unresolved.
 
@@ -31,7 +31,7 @@ On the frozen 100-problem benchmark, automated correctness improved from 17% for
 
 The 59/100 automated score is the apples-to-apples benchmark result. The 71/100 figure is a separate manual mathematical review, not automated benchmark accuracy. Executable output increased from 61/100 for the original adapter to 85/100 for v2. Paired original-v2 automated outcomes were both correct 28, original only 11, v2 only 31, and both incorrect 30.
 
-The frozen 100-case fixture is separate from the 1,637-example test split. It was not used for v2 training, routine prompt tuning, or checkpoint tuning. Generated source was judged by execution and mathematical result, not similarity to reference source. See the [evaluation package](evaluation/README.md).
+The frozen 100-case fixture is separate from the 1,637-example dataset test split. It was retained for confirmatory evaluation and was not used for v2 training, routine prompt tuning, or checkpoint tuning. The public artifacts do not establish exhaustive semantic non-overlap between every benchmark problem and every generated training example, so no such blanket claim is made. Generated source was judged by execution and mathematical result, not similarity to reference source. This project-specific benchmark does not measure general mathematical ability. See the [evaluation package](evaluation/README.md).
 
 ## Safety and limitations
 
