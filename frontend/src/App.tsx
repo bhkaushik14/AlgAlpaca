@@ -26,7 +26,7 @@ function routeFromPath(): RouteId {
 function initialTheme(): Theme {
   const stored = window.localStorage.getItem('algebra-theme')
   if (stored === 'light' || stored === 'dark') return stored
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  return 'dark'
 }
 
 export default function App() {

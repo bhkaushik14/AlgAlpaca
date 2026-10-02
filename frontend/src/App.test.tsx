@@ -218,7 +218,10 @@ describe('simplified Workbench', () => {
   it('supports themes, examples, keyboard generation, and mobile navigation controls', async () => {
     const user = userEvent.setup()
     render(<App />)
-    await user.click(await screen.findByRole('button', { name: 'Switch to dark theme' }))
+    expect(await screen.findByRole('button', { name: 'Switch to light theme' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Switch to light theme' }))
+    expect(window.localStorage.getItem('algebra-theme')).toBe('light')
+    await user.click(screen.getByRole('button', { name: 'Switch to dark theme' }))
     expect(window.localStorage.getItem('algebra-theme')).toBe('dark')
     await user.click(screen.getByRole('button', { name: 'Open navigation' }))
     expect(screen.getAllByRole('button', { name: 'Close navigation' })).toHaveLength(2)

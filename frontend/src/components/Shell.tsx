@@ -71,7 +71,6 @@ export function Shell({ route, navigate, theme, toggleTheme, modelStatus, runnin
         </button>
         <div className="topbar-actions">
           <span className={`model-chip model-${state}`} aria-label={publicDemo ? 'Demo status: Recorded outputs' : `Adapter status: ${stateLabel}`} role="status">
-            <span className="status-dot" aria-hidden="true" />
             <span className="model-chip-state">{stateLabel}</span>
           </span>
           <button className="icon-button" onClick={toggleTheme} aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} theme`}>

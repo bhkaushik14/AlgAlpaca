@@ -129,7 +129,7 @@ export function Workbench({ capabilities, modelStatus, examples, problem, setPro
             value={problem}
             onChange={(event) => { setProblem(event.target.value); setInputError('') }}
             onBlur={() => void validate()}
-            rows={10}
+            rows={7}
             maxLength={capabilities.max_problem_characters + 1}
             aria-invalid={tooLong || Boolean(inputError)}
             aria-describedby="problem-help problem-error"

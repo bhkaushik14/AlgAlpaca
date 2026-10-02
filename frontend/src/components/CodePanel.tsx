@@ -47,7 +47,6 @@ export function CodePanel({ result, running, error, publicDemo = false }: Props)
         <div>
           <h2 id="program-heading">Generated Program</h2>
           <div className={`compact-run-status status-${state.label.toLowerCase().replaceAll(' ', '-')}`} role="status" aria-live="polite">
-            <span className="status-dot" aria-hidden="true" />
             <strong>{state.label}</strong>
             {state.detail && <span>{state.detail}</span>}
           </div>
@@ -62,8 +61,9 @@ export function CodePanel({ result, running, error, publicDemo = false }: Props)
         </div>
       </div>
       <div className="code-surface" tabIndex={0} aria-label="Read-only generated Python program">
+        <div className="editor-chrome" aria-hidden="true"><span>PYTHON</span><span>READ ONLY</span></div>
         {code ? (
-          <Highlight theme={themes.vsDark} code={code} language="python">
+          <Highlight theme={themes.nightOwl} code={code} language="python">
             {({ className, style, tokens, getLineProps, getTokenProps }) => (
               <pre className={className} style={{ ...style, background: 'transparent' }}>
                 {tokens.map((line, lineIndex) => (
@@ -79,7 +79,6 @@ export function CodePanel({ result, running, error, publicDemo = false }: Props)
           </Highlight>
         ) : (
           <div className="code-empty">
-            <Code2 aria-hidden="true" />
             <strong>{publicDemo ? 'Recorded code will appear here.' : 'Generated code will appear here.'}</strong>
             <span>{publicDemo ? 'Try an evaluated example to view its Python program.' : 'Run an algebra problem to view the Python program.'}</span>
           </div>
