@@ -33,7 +33,7 @@ export function EvaluationView({ summary }: { summary: EvaluationSummary | null 
   return (
     <div className="standard-view evaluation-view">
       <header className="page-intro"><h1>Evaluation</h1><p>Automated correctness: 17/100 base, 39/100 original adapter, and 59/100 v2. V2’s separate manual mathematical review counted 71/100.</p></header>
-      <div className="metric-grid">{metrics.map(([label, value]) => <article className="metric-card" key={label}><span>{label}</span><strong>{value}</strong></article>)}</div>
+      <div className="metric-grid" data-tour="evaluation-metrics">{metrics.map(([label, value]) => <article className="metric-card" key={label}><span>{label}</span><strong>{value}</strong></article>)}</div>
       <section className="card limitation-callout">
         <div className="limitation-figure"><strong>{summary.scorer_false_negatives}</strong><span>manual equivalence cases</span></div>
         <div><h2>What these results mean</h2><p>59/100 is the direct automated comparison. The separate 71/100 total includes equivalent outputs rejected by the frozen scorer.</p><p>These project-specific results do not measure performance on other datasets or algebra tasks.</p><a href={summary.documentation} target="_blank" rel="noreferrer">Detailed evaluation documentation <ExternalLink aria-hidden="true" /></a></div>

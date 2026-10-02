@@ -1,6 +1,7 @@
 import { Check, Clipboard, Code2 } from 'lucide-react'
 import { Highlight, themes } from 'prism-react-renderer'
 import { useState } from 'react'
+import { formatMathNotation } from '../mathNotation'
 import type { DisplayResult } from '../types'
 
 interface Props {
@@ -34,6 +35,8 @@ export function CodePanel({ result, running, error, publicDemo = false }: Props)
   const [copied, setCopied] = useState(false)
   const code = result?.program.code ?? ''
   const state = resultState(result, running, error)
+  const rawOutput = result ? outputText(result) : ''
+  const formattedOutput = result?.output.execution_status === 'ok' ? formatMathNotation(rawOutput) : rawOutput
   const copy = async () => {
     if (!code) return
     await navigator.clipboard.writeText(code)
@@ -60,7 +63,7 @@ export function CodePanel({ result, running, error, publicDemo = false }: Props)
           </button>
         </div>
       </div>
-      <div className="code-surface" tabIndex={0} aria-label="Read-only generated Python program">
+      <div className="code-surface" data-tour="code-surface" tabIndex={0} aria-label="Read-only generated Python program">
         <div className="editor-chrome" aria-hidden="true"><span>PYTHON</span><span>READ ONLY</span></div>
         {code ? (
           <Highlight theme={themes.nightOwl} code={code} language="python">
@@ -85,7 +88,7 @@ export function CodePanel({ result, running, error, publicDemo = false }: Props)
         )}
       </div>
       {result && (
-        <section className="program-output" aria-labelledby="program-output-heading">
+        <section className="program-output" data-tour="program-output" aria-labelledby="program-output-heading">
           <h3 id="program-output-heading">
             {result.output.display_kind === 'approximate' && result.output.execution_status === 'ok'
               ? 'Approximate result'
@@ -93,7 +96,8 @@ export function CodePanel({ result, running, error, publicDemo = false }: Props)
                 ? 'Result'
                 : 'Program output'}
           </h3>
-          <pre tabIndex={0} aria-label="Program result">{outputText(result)}</pre>
+          <pre className="formatted-result" tabIndex={0} aria-label="Program result">{formattedOutput}</pre>
+          {formattedOutput !== rawOutput && <details className="compact-details raw-result"><summary>Raw result</summary><pre>{rawOutput}</pre></details>}
           {result.output.display_kind === 'approximate' && result.output.execution_status === 'ok' && (
             <details className="compact-details">
               <summary>Exact program output</summary>

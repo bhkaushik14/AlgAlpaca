@@ -1,6 +1,7 @@
 import { AlertTriangle, ChevronDown, Eraser, Info, Play, RotateCcw } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { api } from '../api'
+import { formatMathNotation } from '../mathNotation'
 import { PUBLIC_DEMO_NOTICE } from '../publicDemo'
 import type { Capabilities, DisplayResult, ExampleItem, ModelStatus } from '../types'
 import { CodePanel } from './CodePanel'
@@ -21,6 +22,7 @@ interface Props {
   submitProblem: (problem: string) => Promise<void>
   resetRun: () => void
   publicDemo: boolean
+  onExampleChosen?: () => void
 }
 
 const reasonLabels: Record<string, string> = {
@@ -36,7 +38,7 @@ const reasonLabels: Record<string, string> = {
   model_load_failed: 'Model loading failed',
 }
 
-export function Workbench({ capabilities, modelStatus, examples, problem, setProblem, refreshRuntime, result, running, error, notice, inputError, setInputError, submitProblem, resetRun, publicDemo }: Props) {
+export function Workbench({ capabilities, modelStatus, examples, problem, setProblem, refreshRuntime, result, running, error, notice, inputError, setInputError, submitProblem, resetRun, publicDemo, onExampleChosen }: Props) {
   const [verifying, setVerifying] = useState(false)
   const [verificationRetryError, setVerificationRetryError] = useState('')
   const textarea = useRef<HTMLTextAreaElement>(null)
@@ -94,6 +96,7 @@ export function Workbench({ capabilities, modelStatus, examples, problem, setPro
       setProblem(selected.problem)
       setInputError('')
       resetRun()
+      onExampleChosen?.()
       textarea.current?.focus()
     }
   }
@@ -122,6 +125,10 @@ export function Workbench({ capabilities, modelStatus, examples, problem, setPro
             </div>
           </div>
 
+          <div className={`notation-preview${problem ? '' : ' notation-preview-empty'}`} data-tour="problem-preview" aria-live="polite">
+            <div className="notation-preview-header"><span>Math preview</span></div>
+            <p>{problem ? formatMathNotation(problem) : 'Choose an example to preview its notation.'}</p>
+          </div>
           <label className="field-label" htmlFor="problem-input">Problem statement</label>
           <textarea
             ref={textarea}
@@ -141,7 +148,7 @@ export function Workbench({ capabilities, modelStatus, examples, problem, setPro
 
           <div className="input-actions">
             <button className="compact-button" onClick={reset} disabled={running}><Eraser aria-hidden="true" /> Clear</button>
-            <label className="select-label">
+            <label className="select-label" data-tour="example-select">
               <span className="sr-only">Load an example</span>
               <select defaultValue="" onChange={(event) => chooseExample(event.target.value)} aria-label="Load an example problem" disabled={running}>
                 <option value="" disabled>{publicDemo ? 'Try an example…' : 'Choose an example…'}</option>
@@ -170,7 +177,7 @@ export function Workbench({ capabilities, modelStatus, examples, problem, setPro
           {publicDemo
             ? <p className="safety-note public-demo-notice"><Info aria-hidden="true" />{PUBLIC_DEMO_NOTICE}</p>
             : <p className="safety-note"><AlertTriangle aria-hidden="true" />Generated code may be incorrect and runs in a restricted local sandbox.</p>}
-          <button className="primary-action" onClick={run} disabled={!canRun} aria-label={running ? 'Generating' : actionLabel} aria-describedby={error || notice ? 'run-message' : undefined}>
+          <button className="primary-action" data-tour="run-button" onClick={run} disabled={!canRun} aria-label={running ? 'Generating' : actionLabel} aria-describedby={error || notice ? 'run-message' : undefined}>
             {running ? <RotateCcw className="spin" aria-hidden="true" /> : <Play aria-hidden="true" />}
             {running ? 'Generating…' : actionLabel}
             <kbd>⌘/Ctrl ↵</kbd>

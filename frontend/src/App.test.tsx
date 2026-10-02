@@ -441,6 +441,33 @@ describe('public demo mode', () => {
     vi.stubEnv('VITE_PUBLIC_DEMO', 'true')
   })
 
+  it('guides a recorded radical example while keeping its original text and answer available', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+    expect(await screen.findByRole('heading', { name: 'Pick an example' })).toBeInTheDocument()
+    await user.selectOptions(screen.getByLabelText('Load an example problem'), 'confirm-simplify-04')
+    expect(await screen.findByRole('heading', { name: 'See the math clearly' })).toBeInTheDocument()
+    expect(screen.getByText('Simplify √98 + √8 − √50 exactly using principal real square roots.')).toBeInTheDocument()
+    expect(screen.getByLabelText('Problem statement')).toHaveValue('Simplify sqrt(98) + sqrt(8) - sqrt(50) exactly using principal real square roots.')
+    expect(screen.queryByText('Display only')).not.toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Next' }))
+    expect(await screen.findByRole('heading', { name: 'View the saved result' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'View recorded result' }))
+    expect(await screen.findByLabelText('Program result')).toHaveTextContent('4√2')
+    expect(screen.getByText('Raw result').closest('details')).toHaveTextContent('4*sqrt(2)')
+    await user.click(screen.getByRole('button', { name: 'Skip tour' }))
+    expect(screen.queryByRole('heading', { name: 'See the Python code' })).not.toBeInTheDocument()
+    expect(window.localStorage.getItem('algalpaca-tour-seen-v1')).toBe('yes')
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
+  it('opens a direct evaluation link without covering it with the workspace tour', async () => {
+    window.history.replaceState({}, '', '/evaluation')
+    render(<App />)
+    expect(await screen.findByRole('heading', { name: 'Evaluation' })).toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Pick an example' })).not.toBeInTheDocument()
+  })
+
   it('loads static data and shows the exact demo notice without backend requests', async () => {
     render(<App />)
     expect(await screen.findByText('This public demo uses real outputs from the evaluated AlgAlpaca model')).toBeInTheDocument()

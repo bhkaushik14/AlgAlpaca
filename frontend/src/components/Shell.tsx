@@ -29,10 +29,11 @@ interface Props {
   modelStatus: ModelStatus | null
   running: boolean
   publicDemo: boolean
+  onStartTour: () => void
   children: ReactNode
 }
 
-export function Shell({ route, navigate, theme, toggleTheme, modelStatus, running, publicDemo, children }: Props) {
+export function Shell({ route, navigate, theme, toggleTheme, modelStatus, running, publicDemo, onStartTour, children }: Props) {
   const [menuOpen, setMenuOpen] = useState(false)
   const state = modelStatus?.state ?? 'not_loaded'
   const stateLabel = publicDemo
@@ -70,6 +71,7 @@ export function Shell({ route, navigate, theme, toggleTheme, modelStatus, runnin
           </span>
         </button>
         <div className="topbar-actions">
+          {publicDemo && <button className="tour-launch" onClick={onStartTour} aria-label="Replay guided tour">Tour</button>}
           <span className={`model-chip model-${state}`} aria-label={publicDemo ? 'Demo status: Recorded outputs' : `Adapter status: ${stateLabel}`} role="status">
             <span className="model-chip-state">{stateLabel}</span>
           </span>

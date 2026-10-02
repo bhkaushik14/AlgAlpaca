@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { api, ApiError } from './api'
 import { Shell } from './components/Shell'
+import { DemoTour } from './components/DemoTour'
 import { Workbench } from './components/Workbench'
 import { AboutView, DocumentationView, EvaluationView, ExamplesView, LoadingView } from './components/Views'
 import {
@@ -45,6 +46,7 @@ export default function App() {
   const [runError, setRunError] = useState('')
   const [runNotice, setRunNotice] = useState('')
   const [inputError, setInputError] = useState('')
+  const [tourStep, setTourStep] = useState<number | null>(() => publicDemo && routeFromPath() === 'workbench' && (new URLSearchParams(window.location.search).get('tour') === '1' || window.localStorage.getItem('algalpaca-tour-seen-v1') !== 'yes') ? 0 : null)
   const runActive = useRef(false)
 
   const refreshRuntime = async () => {
@@ -64,7 +66,10 @@ export default function App() {
 
     if (publicDemo) {
       const recordedResult = publicDemoResultFor(submittedProblem)
-      if (recordedResult) setResult(recordedResult)
+      if (recordedResult) {
+        setResult(recordedResult)
+        setTourStep((current) => current === 2 ? 3 : current)
+      }
       else setRunNotice(PUBLIC_DEMO_UNSUPPORTED_MESSAGE)
       runActive.current = false
       return
@@ -136,6 +141,21 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  const closeTour = () => {
+    window.localStorage.setItem('algalpaca-tour-seen-v1', 'yes')
+    const url = new URL(window.location.href)
+    if (url.searchParams.has('tour')) {
+      url.searchParams.delete('tour')
+      window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`)
+    }
+    setTourStep(null)
+  }
+
+  const startTour = () => {
+    navigate('workbench')
+    setTourStep(0)
+  }
+
   const useExample = (nextProblem: string) => {
     if (runActive.current) return
     setProblem(nextProblem)
@@ -162,6 +182,7 @@ export default function App() {
       submitProblem={submitProblem}
       resetRun={resetRun}
       publicDemo={publicDemo}
+      onExampleChosen={() => setTourStep((current) => current === 0 ? 1 : current)}
     />
   )
   else if (route === 'examples') view = <ExamplesView examples={examples} onUseExample={useExample} publicDemo={publicDemo} />
@@ -170,10 +191,11 @@ export default function App() {
   else view = <AboutView navigate={navigate} />
 
   return (
-    <Shell route={route} navigate={navigate} theme={theme} toggleTheme={() => setTheme(theme === 'light' ? 'dark' : 'light')} modelStatus={modelStatus} running={running} publicDemo={publicDemo}>
+    <Shell route={route} navigate={navigate} theme={theme} toggleTheme={() => setTheme(theme === 'light' ? 'dark' : 'light')} modelStatus={modelStatus} running={running} publicDemo={publicDemo} onStartTour={startTour}>
       <a className="skip-link" href="#main-content">Skip to main content</a>
       {bootError && <div className="error-banner boot-error" role="alert">{bootError}</div>}
       {view}
+      {publicDemo && <DemoTour step={tourStep} route={route} setStep={setTourStep} navigate={navigate} close={closeTour} />}
     </Shell>
   )
 }
