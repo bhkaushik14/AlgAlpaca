@@ -10,9 +10,9 @@ AlgAlpaca is a local algebra-to-Python/SymPy research workbench built around a Q
 
 ## Demo
 
-![AlgAlpaca workspace showing an algebra problem, generated SymPy program, and execution result](docs/assets/algalpaca-workspace.png)
+![AlgAlpaca Studio public demo showing the algebra workspace and read-only Python panel](docs/assets/algalpaca-studio.jpg)
 
-*A real local run of the current application. V2 generated and executed a SymPy program for the entered quadratic equation. The screenshot documents the local inference workflow; the hosted public demo uses recorded evaluated outputs.*
+*The hosted Studio demo in its initial state. Select an evaluated example to view its recorded Python program and result; the public site does not perform live inference.*
 
 ## Key results
 
